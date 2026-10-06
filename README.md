@@ -1,23 +1,39 @@
 # ds-react
 
-Accessible React component library. Current public API: **Button**, built on [React Aria](https://react-aria.adobe.com/) hooks (`useButton`, `useFocusRing`, `useHover`). Markup, tokens, and the public API are owned by this package; **React Aria Components is not a dependency**.
+Accessible React component library for a design system.
+
+**Public API:** `Button`, `Badge`, `Tab`, `Tabs`, `TabList`, `TabPanel`, plus typed design tokens (`colorTokens`, `spacingTokens`, `typographyTokens`, and related helpers/types from `ds-react`).
+
+**Stack (behavior vs presentation):**
+
+- **Button** — React Aria hooks (`useButton`, `useFocusRing`, `useHover`). Native `<button>` markup; tokens and CSS owned by this package.
+- **Tabs / TabList / TabPanel** — [React Aria Components](https://react-aria.adobe.com/react-aria-components) for selection, keyboard navigation, and ARIA roles. Markup, tokens, and styles owned by this package.
+- **Tab** — Inside `Tabs`, uses React Aria Components `Tab`. Standalone `Tab` uses React Aria hooks for hover, press, and focus-visible on a native `<button role="tab">`.
+- **Badge** — Static `<span>`; no React Aria (non-interactive).
+
+Runtime dependencies: `react-aria` and `react-aria-components` (see `package.json`). Peer dependencies: `react` and `react-dom` (18 or 19).
 
 ## Installation
 
 ```bash
-npm install ds-react react-aria
+npm install ds-react react-aria react-aria-components
 ```
-
-Peer dependencies: `react` and `react-dom` (18 or 19).
 
 Styles are not injected on import (keeps generated types clean):
 
 ```ts
 import 'ds-react/styles'
-import { Button } from 'ds-react'
+import {
+  Badge,
+  Button,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from 'ds-react'
 ```
 
-## Usage
+## Button
 
 ```tsx
 import 'ds-react/styles'
@@ -33,8 +49,6 @@ export function Example() {
 ```
 
 Public interaction contract: **`onPress`** (mouse, keyboard, and touch). Do not use `onClick` as the library API.
-
-### Variants
 
 - `variant`: `solid` | `outline` | `ghost`
 - `size`: `sm` | `md` | `lg` (minimum pointer targets 32 / 40 / 44 CSS px)
@@ -58,7 +72,7 @@ Pending (accessible name is preserved; `onPress` does not fire; extra clicks do 
 
 `pendingLabel` is the i18n hook. Default: `"Loading"`.
 
-### Badge
+## Badge
 
 Static status label. Variants: `Neutral` | `Positive` | `Negative`. Size modes are **viewport-driven** (no `mobile` prop):
 
@@ -73,7 +87,49 @@ import { Badge } from 'ds-react'
 <Badge variant="Negative">Alert</Badge>
 ```
 
-### Tokens
+## Tabs and Tab
+
+Compound tabs for switching content. Visual variants: **`Pill`** | **`Underline`** only. Interactive states in CSS follow design specs (Default, Hover, Active, Focus via React Aria `data-*` attributes). There is no `disabled` or `loading` Tab API in the shipped design.
+
+**Responsive layout** uses CSS media queries only (`>768px` desktop, `≤768px` mobile). There is **no** JavaScript `mobile` prop.
+
+Selecting a tab updates which **`TabPanel`** is shown (same `id` on `Tab` and `TabPanel`).
+
+```tsx
+import { Badge, Tab, TabList, TabPanel, Tabs } from 'ds-react'
+
+export function WorkspaceTabs() {
+  return (
+    <Tabs
+      variant="Pill"
+      defaultSelectedKey="emails"
+      aria-label="Workspace"
+      onSelectionChange={(key) => console.log(key)}
+    >
+      <TabList>
+        <Tab id="emails" badge={<Badge variant="Neutral">12</Badge>}>
+          Emails
+        </Tab>
+        <Tab id="files" badge={<Badge variant="Negative">!</Badge>}>
+          Files
+        </Tab>
+        <Tab id="edits">Edits</Tab>
+      </TabList>
+      <TabPanel id="emails">Emails content</TabPanel>
+      <TabPanel id="files">Files content</TabPanel>
+      <TabPanel id="edits">Edits content</TabPanel>
+    </Tabs>
+  )
+}
+```
+
+**Tabs props:** `variant`, `selectedKey`, `defaultSelectedKey`, `onSelectionChange`, `aria-label`, `className`.
+
+**Tab props:** `id`, `children`, optional `badge` (pass the design-system `Badge`; choose `Badge` variant on `Badge` itself), optional `variant` / `isSelected` when used standalone outside `Tabs`.
+
+**Storybook:** `Components/Tab` (single-tab matrices and variants), `Components/Tabs` (lists, badges, interactive panels).
+
+## Tokens
 
 Core spacing scale (TypeScript: `spacingTokens` from `ds-react`):
 
@@ -112,11 +168,11 @@ npm run build
 npm run storybook
 ```
 
-`npm test` runs Vitest **with coverage**. The run fails if lines, branches, functions, or statements drop below **85%** (global and `src/components/Button/**`).
+`npm test` runs Vitest **with coverage**. The run fails if lines, branches, functions, or statements drop below **85%** globally and for public modules under `src/components/Button/**`, `src/components/Badge/**`, `src/components/Tab/**`, `src/components/Tabs/**`, and `src/tokens/**`.
 
 ## Accessibility
 
-Target: **WCAG 3.0** outcomes for this control. Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated floor (axe, keyboard tests, documented token contrast). Mapping: [ACCESSIBILITY.md](./ACCESSIBILITY.md).
+This library targets **WCAG 3.0** outcomes for interactive controls. Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, token contrast). Per-control mapping: [ACCESSIBILITY.md](./ACCESSIBILITY.md) (Button and Tabs/Tab).
 
 ## Publish
 
