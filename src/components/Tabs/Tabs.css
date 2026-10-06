@@ -1,0 +1,53 @@
+/* Tabs container — list gaps and panels. Tab item visuals live in Tab.css. */
+
+.ds-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-s, 1rem);
+  font-family: var(--ds-font-family, 'Inter', sans-serif);
+}
+
+.ds-tab-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Desktop (>768px) TabList gaps */
+.ds-tab-list--Pill {
+  gap: var(--ds-space-xs, 0.75rem); /* XS = 12px */
+}
+
+.ds-tab-list--Underline {
+  gap: var(--ds-space-xl, 2rem); /* XL = 32px */
+}
+
+/* Mobile (≤768px) TabList gaps */
+@media (max-width: 768px) {
+  .ds-tab-list--Pill {
+    gap: var(--ds-space-2xs, 0.5rem); /* 2XS = 8px */
+  }
+
+  .ds-tab-list--Underline {
+    gap: var(--ds-space-l, 1.5rem); /* L = 24px */
+  }
+}
+
+.ds-tab-panel {
+  outline: none;
+  color: var(--OnNeutral, #1b2134);
+  font-family: var(--ds-font-family, 'Inter', sans-serif);
+  font-size: var(--font-size-body-m, 0.875rem);
+  line-height: calc(
+    var(--font-size-body-m, 0.875rem) * var(--line-height-body-m, 1.5)
+  );
+}
+
+.ds-tab-panel:focus-visible {
+  outline: var(--ds-focus-width, 2px) solid var(--Inverse, #1b2134);
+  outline-offset: var(--ds-focus-offset, 2px);
+}

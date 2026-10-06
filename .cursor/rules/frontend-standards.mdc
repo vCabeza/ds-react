@@ -1,0 +1,83 @@
+---
+description: Frontend architecture, accessibility, TypeScript, testing, Storybook, tokens, and documentation standards for ds-react.
+globs: "**/*.{ts,tsx,css,md,mdc}"
+alwaysApply: true
+---
+
+# Frontend standards (ds-react)
+
+Apply these rules on every change. They override informal habits from older files.
+
+## 1. Core framework — React only
+
+- React is the only UI framework. New primitives are React function components with TypeScript.
+- Library interaction contract: React Aria press/focus/hover. Do not expose `onClick` as the primary public API.
+
+## 2. Accessibility skeleton — React Aria + WCAG 3.0
+
+- Interactive UI **must** be built on `react-aria` (hooks such as `useButton`, `useFocusRing`, `useHover`, and/or React Aria Components).
+- Spread Aria-generated DOM props onto a **semantic** native element.
+- Comply with **WCAG 3.0** outcomes relevant to the control (focus, keyboard, ARIA, contrast, AT). Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, documented token contrast).
+- Checklist for every interactive primitive:
+  - Accessible name (visible text or required `aria-label` at the type level for icon-only)
+  - Focus visible (`useFocusRing` → `data-focus-visible`; never `outline: none` without a replacement)
+  - Keyboard: Tab plus control-specific keys (button: Enter and Space)
+  - Disabled / pending announced (`aria-busy`, do not drop the accessible name)
+  - Contrast: text ≥ 4.5:1, UI/focus ≥ 3:1 via tokens
+  - Pointer target ≥ 24px CSS (default sizes prefer 40–44px)
+  - `prefers-reduced-motion` honored
+  - State not by color alone (`data-*` attributes)
+
+## 3. TypeScript — `any` forbidden
+
+- `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes` stay on.
+- Ban `any`. Prefer `unknown`, generics, discriminated unions, and `Aria*` types from `react-aria`.
+- Exception: third-party types completely broken — use the narrowest assertion and a comment: `// third-party: <package> <reason>`.
+- Forbidden without that comment: `any`, `as any`, `as never` used to dodge mismatched types.
+
+ESLint MUST include:
+
+```
+@typescript-eslint/no-explicit-any: error
+```
+
+## 4. Tests and 85% coverage
+
+- Vitest + Testing Library + jest-axe (or equivalent) for every public component.
+- Cover: render, keyboard, pointer, disabled, pending, variants that change a11y, refs, and utilities (`cx`, `mergeRefs`, variant maps).
+- Coverage watermarks **85%** lines, branches, functions, statements, enforced in `vitest.config.ts` (`coverage.thresholds` and per-file thresholds for `src/components/**`).
+- Script: `npm test` runs coverage in CI; do not disable thresholds to land a PR.
+
+## 5. Storybook
+
+- CSF3 file next to the component: `Component.stories.tsx`.
+- Required stories: each variant, each intent, each size, disabled, pending, icon-only, slots, full width, plus play/interaction for hover and focus-visible where feasible.
+- `@storybook/addon-a11y` enabled. Docs strings in English.
+- Do not ship a public component without stories.
+
+## 6. Design tokens
+
+- Token file: `src/styles/tokens.css` (`--ds-*`).
+- Component CSS uses `var(--ds-…)` for color, space, type, radius, focus, motion duration, border width, z-index/elevation.
+- Hardcoded hex/rgb/px/rem in `*.module.css` / component CSS is a defect unless it is (a) the token definition or (b) a documented sr-only clip reset.
+- No Tailwind in this repository.
+
+## 7. English-only documentation
+
+- Comments, JSDoc/TSDoc, README, ACCESSIBILITY.md, commit messages, Storybook titles/docs: **English**.
+- Default user-visible strings in English and overridable (`pendingLabel`).
+
+## File layout for a primitive
+
+```
+src/components/<Name>/
+  <Name>.tsx
+  <Name>.types.ts
+  <Name>.css          # tokens only
+  <Name>.variants.ts
+  <Name>.test.tsx
+  <Name>.stories.tsx
+  index.ts
+```
+
+Export from `src/index.ts`. Styles consumed via `ds-react/styles`.

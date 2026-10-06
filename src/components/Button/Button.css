@@ -1,0 +1,198 @@
+.ds-button {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  margin: 0;
+  font-family: var(--ds-font-family);
+  font-weight: var(--ds-font-weight);
+  line-height: var(--ds-line-height);
+  text-decoration: none;
+  vertical-align: middle;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    color 120ms ease,
+    box-shadow 120ms ease,
+    opacity 120ms ease;
+}
+
+.ds-button:focus {
+  outline: none;
+}
+
+.ds-button[data-focus-visible] {
+  outline: var(--ds-focus-width) solid var(--Inverse);
+  outline-offset: var(--ds-focus-offset);
+}
+
+.ds-button[data-disabled],
+.ds-button[data-pending] {
+  cursor: not-allowed;
+}
+
+.ds-button[data-disabled] {
+  opacity: var(--ds-disabled-opacity);
+}
+
+.ds-button--full-width {
+  width: 100%;
+}
+
+.ds-button--sm {
+  min-height: var(--ds-target-sm);
+  min-width: var(--ds-target-sm);
+  padding: var(--ds-space-1) var(--ds-space-3);
+  font-size: var(--ds-font-size-sm);
+  border-radius: var(--ds-radius-sm);
+}
+
+.ds-button--md {
+  min-height: var(--ds-target-md);
+  min-width: var(--ds-target-md);
+  padding: var(--ds-space-2) var(--ds-space-4);
+  font-size: var(--ds-font-size-md);
+  border-radius: var(--ds-radius-md);
+}
+
+.ds-button--lg {
+  min-height: var(--ds-target-lg);
+  min-width: var(--ds-target-lg);
+  padding: var(--ds-space-3) var(--ds-space-5);
+  font-size: var(--ds-font-size-lg);
+  border-radius: var(--ds-radius-lg);
+}
+
+.ds-button--solid.ds-button--primary {
+  --ds-btn-bg: var(--Inverse);
+  --ds-btn-bg-hover: var(--InverseHover);
+  --ds-btn-bg-press: var(--InverseActive);
+  --ds-btn-fg: var(--OnInverse);
+  --ds-btn-border: var(--Inverse);
+}
+
+.ds-button--solid.ds-button--neutral {
+  --ds-btn-bg: var(--SurfaceHigh);
+  --ds-btn-bg-hover: var(--SurfaceHover);
+  --ds-btn-bg-press: var(--SurfaceActive);
+  --ds-btn-fg: var(--OnNeutral);
+  --ds-btn-border: var(--Outline);
+}
+
+.ds-button--solid.ds-button--danger {
+  --ds-btn-bg: var(--SurfaceNegative);
+  --ds-btn-bg-hover: var(--SurfaceNegative);
+  --ds-btn-bg-press: var(--SurfaceNegative);
+  --ds-btn-fg: var(--OnNeutral);
+  --ds-btn-border: var(--SurfaceNegative);
+}
+
+.ds-button--solid {
+  color: var(--ds-btn-fg);
+  background-color: var(--ds-btn-bg);
+  border-color: var(--ds-btn-border);
+}
+
+.ds-button--solid[data-hovered] {
+  background-color: var(--ds-btn-bg-hover);
+}
+
+.ds-button--solid[data-pressed] {
+  background-color: var(--ds-btn-bg-press);
+}
+
+.ds-button--outline.ds-button--primary,
+.ds-button--ghost.ds-button--primary {
+  --ds-btn-fg: var(--Inverse);
+  --ds-btn-border: var(--Inverse);
+  --ds-btn-bg-hover: var(--SurfaceHover);
+  --ds-btn-bg-press: var(--SurfaceActive);
+}
+
+.ds-button--outline.ds-button--neutral,
+.ds-button--ghost.ds-button--neutral {
+  --ds-btn-fg: var(--OnNeutral);
+  --ds-btn-border: var(--Outline);
+  --ds-btn-bg-hover: var(--SurfaceHover);
+  --ds-btn-bg-press: var(--SurfaceActive);
+}
+
+.ds-button--outline.ds-button--danger,
+.ds-button--ghost.ds-button--danger {
+  --ds-btn-fg: var(--OnNeutral);
+  --ds-btn-border: var(--SurfaceNegative);
+  --ds-btn-bg-hover: var(--SurfaceNegative);
+  --ds-btn-bg-press: var(--SurfaceNegative);
+}
+
+.ds-button--outline {
+  color: var(--ds-btn-fg);
+  background-color: transparent;
+  border-color: var(--ds-btn-border);
+}
+
+.ds-button--ghost {
+  color: var(--ds-btn-fg);
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.ds-button--outline[data-hovered],
+.ds-button--ghost[data-hovered] {
+  background-color: var(--ds-btn-bg-hover);
+}
+
+.ds-button--outline[data-pressed],
+.ds-button--ghost[data-pressed] {
+  background-color: var(--ds-btn-bg-press);
+}
+
+.ds-button__label,
+.ds-button__slot {
+  display: inline-flex;
+  align-items: center;
+}
+
+.ds-button__spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: ds-button-spin 0.7s linear infinite;
+}
+
+.ds-button__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@keyframes ds-button-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ds-button {
+    transition: none;
+  }
+
+  .ds-button__spinner {
+    animation: none;
+    border-right-color: currentColor;
+  }
+}

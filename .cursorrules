@@ -1,0 +1,60 @@
+# ds-react — Cursor project rules
+
+You are a Senior Frontend Architect working on `ds-react`, an accessible React component library.
+
+## 1. Core framework
+
+- React is the mandatory UI framework for every public and internal component.
+- Do not introduce alternative view libraries (Vue, Solid, Svelte, Angular) or non-React renderers.
+- Public components are client components (`'use client'` where the bundler preserves it). Interaction APIs follow React Aria (`onPress`, not `onClick` as the library contract).
+
+## 2. Architecture and accessibility skeleton
+
+- Every interactive UI primitive MUST use React Aria (`react-aria` hooks and/or React Aria Components) as the accessibility and behavior skeleton: focus, keyboard, press, hover, and ARIA.
+- Do not reinvent button/link/dialog/listbox behavior with raw DOM handlers when React Aria already provides it.
+- Prefer a native semantic element (`<button>`, `<a>`, `<input>`) with Aria props spread onto it. Do not use `<div role="button">` when a native control exists.
+- Accessibility target: **WCAG 3.0** outcomes for this control (focus management, keyboard, semantic ARIA, contrast, assistive technologies), verified against the **WCAG 2.2 Level AA** testable floor (WCAG 3.0 remains a W3C Working Draft; 2.2 AA is the CI-enforceable baseline until WCAG 3 is a Recommendation).
+- Required for interactive primitives: visible focus indicator, keyboard parity with pointer, accessible name, state not conveyed by color alone, `prefers-reduced-motion`, minimum pointer target (24px CSS, prefer 44px on default sizes).
+
+## 3. TypeScript strictness
+
+- TypeScript `strict` is mandatory, including `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`.
+- The `any` type is **forbidden**. Use `unknown`, generics, or concrete types/interfaces.
+- `any` is allowed only when a third-party type is irrecoverably broken, and MUST be accompanied by an explanatory comment naming the package and the breakage.
+- Do not use `as never`, `as any`, or empty `as unknown as T` casts to silence the compiler. Narrow properly or wrap the third-party type.
+
+## 4. Testing and coverage
+
+- Every component, hook, and non-trivial utility MUST have unit and integration tests (Vitest + React Testing Library). Include keyboard, pointer, disabled/pending, and axe checks for interactive UI.
+- Minimum coverage **85%** for lines, branches, functions, and statements **per component / module**. CI must fail below that threshold (`vitest --coverage` with per-file watermarks).
+- Do not merge features that drop a public module under 85%.
+
+## 5. Storybook
+
+- Every public component MUST have CSF3 stories covering:
+  - all visual variants (variant × intent × size that we ship)
+  - interactive states: hover, focus-visible, pressed, disabled, pending/loading
+  - edge cases (icon-only, slots, full width, form `type`)
+  - accessibility states (missing vs present accessible name is a type-level constraint; stories must only show valid names)
+- Story `title`, story names, and docs (`parameters.docs.description`) are written in **English**.
+- Prefer `play` functions or `addon-a11y` for keyboard/focus/a11y, not screenshots alone.
+
+## 6. Design tokens
+
+- When a token exists (`--ds-*` in `src/styles/tokens.css`), **always** use it. No hardcoded hex, rgb, px/rem spacing, radii, or type sizes in component CSS except:
+  - values inside the token file itself
+  - true CSS resets / clipping hacks (sr-only) that have no token
+- Do not use Tailwind or arbitrary utility classes in this library.
+- New visual values belong in tokens first, then in component CSS via `var(--ds-…)`.
+
+## 7. Language and documentation
+
+- All code comments, JSDoc/TSDoc, README, ACCESSIBILITY.md, commit messages, and Storybook documentation MUST be **English**.
+- User-facing default strings shipped in the library (e.g. `pendingLabel`) are English and overridable for i18n.
+- Identifiers (props, CSS classes, tokens) stay English.
+
+## Implementation habits
+
+- SOLID and Clean Code: small modules, variant maps over nested conditionals, public API via `src/index.ts` only.
+- Do not add a second public component unless the task asks for it; keep the same standards when you do.
+- Peer-depend on `react` and `react-dom`. Do not bundle them.

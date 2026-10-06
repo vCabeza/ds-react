@@ -1,0 +1,61 @@
+.ds-badge {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  width: fit-content;
+  /* Desktop (>768px): width ≥ 54px, height exactly 26px (padding included). */
+  min-width: 3.375rem;
+  height: 1.625rem;
+  max-height: 1.625rem;
+  /* Desktop: Y = 3XS (4px), X = 2XS (8px) */
+  padding-top: var(--ds-space-3xs, 0.25rem);
+  padding-bottom: var(--ds-space-3xs, 0.25rem);
+  padding-left: var(--ds-space-2xs, 0.5rem);
+  padding-right: var(--ds-space-2xs, 0.5rem);
+  /* Desktop radius 12px */
+  border-radius: var(--ds-radius-lg);
+  border: 0;
+  /* Typography: body-s (12px / 150% → 18px) + Inter Bold */
+  font-family: var(--ds-font-family, 'Inter', sans-serif);
+  font-size: var(--font-size-body-s, 0.75rem);
+  line-height: calc(
+    var(--font-size-body-s, 0.75rem) * var(--line-height-body-s, 1.5)
+  );
+  font-weight: 700;
+  letter-spacing: normal;
+  color: var(--OnNeutral, #1b2134);
+  white-space: nowrap;
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+/* Mobile: True equivalent — viewport width ≤ 768px */
+@media (max-width: 768px) {
+  .ds-badge {
+    /* Mobile: width ≥ 46px, height exactly 22px (padding included). */
+    min-width: 2.875rem;
+    height: 1.375rem;
+    max-height: 1.375rem;
+    /* Mobile: Y = 4XS (2px), X = 3XS (4px) */
+    padding-top: var(--ds-space-4xs, 0.125rem);
+    padding-bottom: var(--ds-space-4xs, 0.125rem);
+    padding-left: var(--ds-space-3xs, 0.25rem);
+    padding-right: var(--ds-space-3xs, 0.25rem);
+    /* Mobile radius 8px */
+    border-radius: var(--ds-radius-md);
+  }
+}
+
+.ds-badge--Neutral {
+  background-color: var(--SurfaceHigh, #f1f1f7);
+}
+
+.ds-badge--Positive {
+  background-color: var(--SurfacePositive, #b1ffc7);
+}
+
+.ds-badge--Negative {
+  background-color: var(--SurfaceNegative, #ffbfb1);
+}
