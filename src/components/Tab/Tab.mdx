@@ -1,0 +1,68 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as TabStories from './Tab.stories'
+
+<Meta of={TabStories} />
+
+# Tab
+
+Single tab trigger (`role="tab"`). Use it inside `Tabs` / `TabList` for a full tabs pattern, or standalone for visual specimens and controlled demos.
+
+Variants are strictly **`Pill`** and **`Underline`**. There is no disabled/loading Tab API and no `mobile` prop — layout is CSS media-query driven.
+
+## How it works
+
+- Inside `Tabs`: selection, roving `tabIndex`, and arrow-key navigation are owned by the Tabs container.
+- Standalone: you control `isSelected`; no list keyboard navigation.
+- Optional **`badge`** slot — pass the design-system `Badge` (variant chosen on Badge).
+- Visual states map to `data-selected`, `data-hovered`, `data-pressed`, `data-focus-visible`.
+
+## Technologies
+
+- React + TypeScript (raw implementation)
+- Plain CSS + design tokens
+- Shared interaction helpers for hover / press / focus-visible (`src/lib/interaction.ts`)
+
+## Accessibility
+
+- Native `<button type="button" role="tab">`.
+- `aria-selected` + roving `tabIndex` when used in a collection.
+- Inside Tabs: `aria-controls` links to the matching panel DOM id.
+- Accessible name from the label text; badge text may contribute — keep badges short.
+- Standalone specimens for axe should sit in a `role="tablist"` parent.
+- Details: repository `ACCESSIBILITY.md` (Tabs / Tab section).
+
+#### Example
+
+<Canvas of={TabStories.SpecsMatrixDesktop} />
+
+<Controls />
+
+## Usage
+
+Standalone:
+
+```tsx
+import 'ds-react/styles'
+import { Badge, Tab } from 'ds-react'
+
+export function Example() {
+  return (
+    <div role="tablist" aria-label="Sections">
+      <Tab id="emails" variant="Pill" isSelected badge={<Badge variant="Neutral">12</Badge>}>
+        Emails
+      </Tab>
+    </div>
+  )
+}
+```
+
+Preferred consumer path is the compound `Tabs` API (see **Components / Tabs**).
+
+## Props
+
+- **id** — Selection key; pairs with `TabPanel` of the same id inside `Tabs`.
+- **children** — Tab label.
+- **variant** — `"Pill"` | `"Underline"` (inherited from `Tabs` when omitted in a list).
+- **isSelected** — Standalone only; ignored inside `Tabs`.
+- **badge** — Optional node (use DS `Badge`).
+- **className** — Extra class names.

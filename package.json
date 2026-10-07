@@ -1,7 +1,7 @@
 {
   "name": "ds-react",
   "version": "0.1.0",
-  "description": "Accessible React component library. Public API: Button, Badge, Tab, and Tabs, with typed design tokens.",
+  "description": "Accessible React component library (raw React + semantic HTML). Public API: Button, Badge, Tab, and Tabs, with typed design tokens.",
   "license": "MIT",
   "type": "module",
   "sideEffects": [
@@ -38,9 +38,7 @@
     "react-dom": "^18.2.0 || ^19.0.0"
   },
   "dependencies": {
-    "@fontsource/inter": "^5.3.0",
-    "react-aria": "^3.44.0",
-    "react-aria-components": "^1.21.1"
+    "@fontsource/inter": "^5.3.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.16.0",

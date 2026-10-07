@@ -1,8 +1,14 @@
 'use client'
 
 import { forwardRef, useRef, type MouseEventHandler, type ReactNode } from 'react'
-import { mergeProps, useButton, useFocusRing, useHover } from 'react-aria'
 import { mergeRefs } from '../../lib/dom'
+import {
+  mergeInteractionProps,
+  useFocusVisible,
+  useHover,
+  usePressHandler,
+  usePressed,
+} from '../../lib/interaction'
 import type { ButtonProps } from './Button.types'
 import { buttonClassName } from './Button.variants'
 
@@ -23,17 +29,9 @@ function ButtonPendingStatus({ label }: { label: string }) {
 }
 
 /**
- * Accessible button primitive.
- *
- * Behavior (press, keyboard, focus, hover) comes from React Aria hooks
- * (`useButton`, `useFocusRing`, `useHover`). React Aria Components is not used:
- * this library owns markup, tokens, and the public API.
- *
- * The public interaction contract is `onPress`, not `onClick`.
- *
- * Icon-only usage requires `aria-label` at the type level. While `isPending`
- * is true, interaction is blocked, `aria-busy` is set, and `pendingLabel` is
- * announced on a polite live region without changing the accessible name.
+ * Press primitive. Public contract is `onPress` (not `onClick`).
+ * Icon-only requires `aria-label`. Pending keeps focus, sets `aria-busy`, and
+ * announces `pendingLabel` on a polite live region without renaming the button.
  */
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   props,
@@ -54,29 +52,19 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     onPress,
     autoFocus,
     type = 'button',
-    ...ariaRest
+    ...rest
   } = props
 
   const innerRef = useRef<HTMLButtonElement>(null)
   const isInactive = isDisabled || isPending
 
-  const { buttonProps, isPressed } = useButton(
-    {
-      ...ariaRest,
-      type,
-      isDisabled,
-      ...(autoFocus ? { autoFocus } : {}),
-      ...(isPending ? {} : { onPress }),
-    },
-    innerRef,
-  )
-
-  const { focusProps, isFocused, isFocusVisible } = useFocusRing({
-    isTextInput: false,
-    ...(autoFocus ? { autoFocus } : {}),
-  })
-
+  const { focusProps, isFocused, isFocusVisible } = useFocusVisible()
   const { hoverProps, isHovered } = useHover({ isDisabled: isInactive })
+  const { pressProps, isPressed } = usePressed({ isDisabled: isInactive })
+  const { pressHandlerProps } = usePressHandler({
+    isDisabled: isInactive,
+    ...(onPress !== undefined && !isPending ? { onPress } : {}),
+  })
 
   const handlePendingSubmitGuard: MouseEventHandler<HTMLButtonElement> = (event) => {
     if (!isPending) {
@@ -86,13 +74,23 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
     event.stopPropagation()
   }
 
+  const interactionProps = mergeInteractionProps(
+    focusProps as Record<string, unknown>,
+    hoverProps as Record<string, unknown>,
+    pressProps as Record<string, unknown>,
+    pressHandlerProps as Record<string, unknown>,
+    { onClick: handlePendingSubmitGuard },
+  )
+
   return (
     <>
       <button
-        {...mergeProps(buttonProps, focusProps, hoverProps, {
-          onClick: handlePendingSubmitGuard,
-        })}
+        {...rest}
+        {...interactionProps}
         ref={mergeRefs(innerRef, forwardedRef)}
+        type={type}
+        disabled={isDisabled}
+        {...(autoFocus ? { autoFocus: true as const } : {})}
         {...(isPending ? { 'aria-busy': true as const } : {})}
         className={buttonClassName({ variant, size, intent, fullWidth, className })}
         data-hovered={isHovered || undefined}

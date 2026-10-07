@@ -10,17 +10,7 @@ export default defineConfig({
   clean: true,
   splitting: false,
   treeshake: true,
-  external: [
-    'react',
-    'react-dom',
-    'react/jsx-runtime',
-    /^react-aria/,
-    /^react-aria-components/,
-    /^react-stately/,
-    /^@react-aria\//,
-    /^@react-stately\//,
-    /^@react-types\//,
-  ],
+  external: ['react', 'react-dom', 'react/jsx-runtime'],
   async onSuccess() {
     const { copyFile, mkdir, readFile, writeFile } = await import('node:fs/promises')
     await mkdir('dist', { recursive: true })

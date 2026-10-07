@@ -4,16 +4,22 @@ import type { TabVariant } from '../Tab/Tab.types'
 export interface TabsContextValue {
   variant: TabVariant
   'aria-label'?: string
+  selectedKey: string | null
+  select: (key: string) => void
+  tabIds: readonly string[]
+  registerTabIds: (ids: string[]) => void
+  tabDomId: (key: string) => string
+  panelDomId: (key: string) => string
 }
 
 export const TabsContext = createContext<TabsContextValue | null>(null)
 
-/** Reads Tabs context when present (null outside `<Tabs>`). */
+/** Returns null outside `<Tabs>`. */
 export function useOptionalTabsContext(): TabsContextValue | null {
   return useContext(TabsContext)
 }
 
-/** Reads Tabs context; must be used under `<Tabs>`. */
+/** Throws outside `<Tabs>`. */
 export function useTabsContext(): TabsContextValue {
   const value = useOptionalTabsContext()
   if (value == null) {

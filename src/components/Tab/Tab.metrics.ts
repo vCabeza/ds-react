@@ -1,10 +1,7 @@
 import type { SpacingToken } from '../../tokens/spacing'
 import type { TypographyVariant } from '../../tokens/typography'
 
-/**
- * Viewport-driven layout metrics for Tab (no JS `mobile` prop).
- * Spacing names map to `src/tokens/spacing.ts` (3XS = 4px in the registry).
- */
+/** Layout metrics for Tab (CSS viewport modes only; no JS `mobile` prop). */
 export const tabMetrics = {
   desktop: {
     mediaQuery: '(min-width: 769px)' as const,

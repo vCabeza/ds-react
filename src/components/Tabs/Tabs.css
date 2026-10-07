@@ -1,4 +1,4 @@
-/* Tabs container — list gaps and panels. Tab item visuals live in Tab.css. */
+/* List gaps and panels. Tab item visuals live in Tab.css. */
 
 .ds-tabs {
   display: flex;
@@ -17,23 +17,21 @@
   list-style: none;
 }
 
-/* Desktop (>768px) TabList gaps */
 .ds-tab-list--Pill {
-  gap: var(--ds-space-xs, 0.75rem); /* XS = 12px */
+  gap: var(--ds-space-xs, 0.75rem);
 }
 
 .ds-tab-list--Underline {
-  gap: var(--ds-space-xl, 2rem); /* XL = 32px */
+  gap: var(--ds-space-xl, 2rem);
 }
 
-/* Mobile (≤768px) TabList gaps */
 @media (max-width: 768px) {
   .ds-tab-list--Pill {
-    gap: var(--ds-space-2xs, 0.5rem); /* 2XS = 8px */
+    gap: var(--ds-space-2xs, 0.5rem);
   }
 
   .ds-tab-list--Underline {
-    gap: var(--ds-space-l, 1.5rem); /* L = 24px */
+    gap: var(--ds-space-l, 1.5rem);
   }
 }
 

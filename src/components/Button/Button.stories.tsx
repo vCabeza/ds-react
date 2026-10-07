@@ -7,7 +7,7 @@ const variants: ButtonVariant[] = ['solid', 'outline', 'ghost']
 const intents: ButtonIntent[] = ['neutral', 'primary', 'danger']
 
 const meta = {
-  title: 'Button',
+  title: 'Components/Button',
   component: Button,
   args: {
     children: 'Save',
@@ -22,7 +22,7 @@ const meta = {
     docs: {
       description: {
         component:
-          'Button is the library press primitive. Use onPress (React Aria). Icon-only buttons must set aria-label. Pending state is announced on a polite live region and does not change the accessible name.',
+          'Button is the library press primitive. Use onPress (not onClick). Icon-only buttons must set aria-label. Pending state is announced on a polite live region and does not change the accessible name.',
       },
     },
   },

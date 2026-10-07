@@ -1,51 +1,54 @@
-import type { AriaButtonProps } from 'react-aria'
-import type { ReactNode } from 'react'
+import type { ButtonHTMLAttributes, ReactNode } from 'react'
 
-/** Visual fill style. */
 export type ButtonVariant = 'solid' | 'outline' | 'ghost'
 
-/** Control size. Default (`md`) meets a 40px CSS pointer target. */
+/** Default (`md`) meets a 40px CSS pointer target. */
 export type ButtonSize = 'sm' | 'md' | 'lg'
 
-/** Semantic color intent. */
 export type ButtonIntent = 'neutral' | 'primary' | 'danger'
 
-type AriaButtonRest = Omit<
-  AriaButtonProps<'button'>,
-  'children' | 'elementType' | 'isDisabled' | 'className' | 'style'
+type NativeButtonRest = Omit<
+  ButtonHTMLAttributes<HTMLButtonElement>,
+  | 'children'
+  | 'className'
+  | 'style'
+  | 'disabled'
+  | 'onClick'
+  | 'type'
+  | 'aria-label'
 >
 
 interface ButtonVisualProps {
-  /** Fill style. @default 'solid' */
+  /** @default 'solid' */
   variant?: ButtonVariant
-  /** Padding and minimum target size. @default 'md' */
+  /** @default 'md' */
   size?: ButtonSize
-  /** Color intent. @default 'primary' */
+  /** @default 'primary' */
   intent?: ButtonIntent
-  /** Native disabled state via React Aria. */
   isDisabled?: boolean
   /**
-   * Busy state: blocks `onPress` and form submit, sets `aria-busy`,
-   * keeps focus, and announces {@link ButtonVisualProps.pendingLabel} on a
-   * polite live region without changing the accessible name.
+   * Blocks `onPress` and form submit, sets `aria-busy`, keeps focus, and
+   * announces {@link ButtonVisualProps.pendingLabel} without changing the accessible name.
    */
   isPending?: boolean
-  /** Stretch to the container width. */
   fullWidth?: boolean
-  /** Extra class names appended after variant classes. */
   className?: string
   /**
    * Accessible pending description (English default). Override for i18n.
    * @default 'Loading'
    */
   pendingLabel?: string
-  /** Leading visual (icons). Marked `aria-hidden`; not part of the accessible name. */
+  /** Leading icon; `aria-hidden` — not part of the accessible name. */
   start?: ReactNode
-  /** Trailing visual (icons). Marked `aria-hidden`; not part of the accessible name. */
+  /** Trailing icon; `aria-hidden` — not part of the accessible name. */
   end?: ReactNode
+  /** Public press contract (pointer and keyboard). Prefer this over `onClick`. */
+  onPress?: () => void
+  /** @default 'button' */
+  type?: 'button' | 'submit' | 'reset'
 }
 
-type ButtonShared = ButtonVisualProps & AriaButtonRest
+type ButtonShared = ButtonVisualProps & NativeButtonRest
 
 type ButtonWithVisibleContent = ButtonShared & {
   children: ReactNode
@@ -58,5 +61,5 @@ type IconOnlyButton = ButtonShared & {
   'aria-label': string
 }
 
-/** Public Button props. Icon-only usage requires `aria-label`. */
+/** Icon-only usage requires `aria-label`. */
 export type ButtonProps = ButtonWithVisibleContent | IconOnlyButton

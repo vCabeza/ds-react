@@ -161,8 +161,7 @@ describe('Button', () => {
   })
 
   it('focuses on mount when autoFocus is set', () => {
-    // Tests React Aria autoFocus wiring; do not use autoFocus in product UI.
-    // eslint-disable-next-line jsx-a11y/no-autofocus -- exercising the supported Aria prop
+    // eslint-disable-next-line jsx-a11y/no-autofocus -- test support for the autoFocus prop
     render(<Button autoFocus>Save</Button>)
     expect(screen.getByRole('button', { name: 'Save' })).toHaveFocus()
   })

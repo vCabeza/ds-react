@@ -1,4 +1,4 @@
-import { render, screen, within } from '@testing-library/react'
+import { fireEvent, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { axe } from 'jest-axe'
 import { describe, expect, it, vi } from 'vitest'
@@ -216,10 +216,47 @@ describe('Tabs', () => {
     expect(screen.getByRole('tablist')).not.toHaveAttribute('aria-label')
   })
 
+  it('ignores non-navigation keys and keydowns outside tabs', async () => {
+    const user = userEvent.setup()
+    render(<BasicTabs />)
+    const emails = screen.getByRole('tab', { name: 'Emails' })
+    emails.focus()
+    await user.keyboard('{Escape}')
+    expect(emails).toHaveAttribute('aria-selected', 'true')
+
+    fireEvent.keyDown(screen.getByRole('tablist'), { key: 'ArrowRight' })
+    expect(emails).toHaveAttribute('aria-selected', 'true')
+  })
+
+  it('associates panels with aria-controls and aria-labelledby', () => {
+    render(<BasicTabs />)
+    const emails = screen.getByRole('tab', { name: 'Emails' })
+    expect(emails).toHaveAttribute('aria-controls', 'ds-tabpanel-emails')
+    expect(screen.getByRole('tabpanel')).toHaveAttribute('aria-labelledby', 'ds-tab-emails')
+  })
+
+  it('falls back to the first tab when defaultSelectedKey is not in the list', () => {
+    render(
+      <Tabs defaultSelectedKey="missing" aria-label="Fallback tabs">
+        <TabList>
+          <Tab id="a">A</Tab>
+          <Tab id="b">B</Tab>
+        </TabList>
+        <TabPanel id="a">Panel A</TabPanel>
+        <TabPanel id="b">Panel B</TabPanel>
+      </Tabs>,
+    )
+    expect(screen.getByRole('tab', { name: 'A' })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    )
+  })
+
   it('has no axe violations', async () => {
     const { container } = render(<BasicTabs withBadge />)
     expect(await axe(container)).toHaveNoViolations()
   })
+
 
   it('throws when TabList is used outside Tabs', () => {
     const spy = vi.spyOn(console, 'error').mockImplementation(() => {})

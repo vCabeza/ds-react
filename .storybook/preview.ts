@@ -14,7 +14,7 @@ const preview: Preview = {
     docs: {
       description: {
         component:
-          'ds-react accessible primitives. Interactive controls use React Aria; visual values come from design tokens.',
+          'ds-react accessible primitives. Interactive controls use raw React and semantic HTML; visual values come from design tokens.',
       },
     },
     a11y: {

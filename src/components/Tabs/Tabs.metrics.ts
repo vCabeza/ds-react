@@ -1,7 +1,7 @@
 import type { SpacingToken } from '../../tokens/spacing'
 import type { TabsVariant } from './Tabs.types'
 
-/** Viewport-driven TabList gap metrics (no JS `mobile` prop). */
+/** TabList gap metrics (CSS viewport modes only; no JS `mobile` prop). */
 export const tabsMetrics = {
   desktop: {
     mediaQuery: '(min-width: 769px)' as const,

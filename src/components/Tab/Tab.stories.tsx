@@ -1,13 +1,11 @@
 import { Fragment, type ReactNode } from 'react'
 import type { Meta, StoryObj } from '@storybook/react'
-import { Badge } from '../Badge'
 import { Tab } from './Tab'
 import type { TabVariant } from './Tab.types'
 import './tab-stories.css'
 
 const variants: TabVariant[] = ['Pill', 'Underline']
 
-/** Interactive visual states from the Figma Tab specs (no invented states). */
 type TabVisualState = 'Default' | 'Hover' | 'Active' | 'Focus'
 
 const visualStates: TabVisualState[] = ['Default', 'Hover', 'Active', 'Focus']
@@ -68,10 +66,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-/**
- * Static specimen that forces Figma visual states via React Aria data attributes.
- * Used only for SpecsMatrix stories (not live pointer interaction).
- */
+/** SpecsMatrix-only: forces visual states via `data-*` (not live pointer). */
 function TabStateSpecimen(props: {
   variant: TabVariant
   selected: boolean

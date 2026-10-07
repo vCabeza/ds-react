@@ -5,7 +5,7 @@ import type { BadgeVariant } from './Badge.types'
 const variants: BadgeVariant[] = ['Neutral', 'Positive', 'Negative']
 
 const meta = {
-  title: 'Badge',
+  title: 'Components/Badge',
   component: Badge,
   args: {
     children: 'Label',

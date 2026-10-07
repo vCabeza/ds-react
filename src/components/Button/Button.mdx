@@ -1,0 +1,79 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Primary press control for the design system. Use it for actions in forms, toolbars, and flows where the user triggers a discrete command.
+
+Styles come from design tokens (`--ds-*` / semantic color tokens). Interactive states are exposed with `data-hovered`, `data-pressed`, `data-focus-visible`, `data-disabled`, and `data-pending`.
+
+## How it works
+
+- Renders a native `<button>`.
+- Public interaction contract is **`onPress`** (pointer and keyboard). Prefer this over `onClick`.
+- Hover, pressed, and keyboard-only focus-visible come from shared helpers in `src/lib/interaction.ts` (raw React — no React Aria).
+- `isPending` keeps focus, sets `aria-busy`, blocks press/submit, and announces `pendingLabel` on a polite live region **outside** the button so the accessible name stays the visible label.
+
+## Technologies
+
+- React + TypeScript
+- Plain CSS + design tokens (`ds-react/styles`)
+- Library-owned interaction helpers (no `react-aria` / CSS frameworks)
+
+## Accessibility
+
+- Native button semantics; icon-only usage requires `aria-label` at the type level.
+- Focus ring via `data-focus-visible` (keyboard modality), never removed without a replacement.
+- Enter / Space activate via native button behavior mapped to `onPress`.
+- Disabled uses native `disabled`; pending does **not** use `disabled` (focus preserved).
+- Target sizes: `sm` 32px, `md` 40px, `lg` 44px. `prefers-reduced-motion` honored for transitions/spinner.
+- See the repository `ACCESSIBILITY.md` for the full WCAG mapping.
+
+#### Example
+
+<Canvas of={ButtonStories.Solid} />
+
+<Controls />
+
+## Usage
+
+```tsx
+import 'ds-react/styles'
+import { Button } from 'ds-react'
+
+export function Example() {
+  return (
+    <Button intent="primary" variant="solid" size="md" onPress={() => {}}>
+      Save
+    </Button>
+  )
+}
+```
+
+Icon-only:
+
+```tsx
+<Button aria-label="Close" start="×" onPress={() => {}} />
+```
+
+Pending (name preserved; submit blocked):
+
+```tsx
+<Button isPending pendingLabel="Saving" type="submit">
+  Save
+</Button>
+```
+
+## Props
+
+- **children** — Visible label (omit only for icon-only with `aria-label`).
+- **variant** — `"solid"` | `"outline"` | `"ghost"` (default `"solid"`).
+- **size** — `"sm"` | `"md"` | `"lg"` (default `"md"`).
+- **intent** — `"neutral"` | `"primary"` | `"danger"` (default `"primary"`).
+- **onPress** — Press handler (pointer + keyboard).
+- **isDisabled** / **isPending** / **pendingLabel** / **fullWidth**
+- **start** / **end** — Presentational icon slots (`aria-hidden`).
+- **type** — `"button"` | `"submit"` | `"reset"` (default `"button"`).
+- Native `button` attributes such as `name`, `value`, `form*`, and `aria-*` are forwarded (not `onClick` / `disabled` as the public API — use `onPress` / `isDisabled`).

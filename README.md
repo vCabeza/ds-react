@@ -6,20 +6,20 @@ Accessible React component library for a design system.
 
 **Stack (behavior vs presentation):**
 
-- **Button** — React Aria hooks (`useButton`, `useFocusRing`, `useHover`). Native `<button>` markup; tokens and CSS owned by this package.
-- **Tabs / TabList / TabPanel** — [React Aria Components](https://react-aria.adobe.com/react-aria-components) for selection, keyboard navigation, and ARIA roles. Markup, tokens, and styles owned by this package.
-- **Tab** — Inside `Tabs`, uses React Aria Components `Tab`. Standalone `Tab` uses React Aria hooks for hover, press, and focus-visible on a native `<button role="tab">`.
-- **Badge** — Static `<span>`; no React Aria (non-interactive).
+- Interactive behavior (Button press model; Tabs selection, keyboard navigation, and panel association) is implemented in this library with **raw React** and semantic HTML.
+- Styles and tokens are owned by the design system (plain CSS + `--ds-*` custom properties).
+- The package does **not** depend on `react-aria` or `react-aria-components`.
+- Accessibility follows the WAI-ARIA APG and **WCAG 2.2 Level AA** as the testable floor toward WCAG 3.0 outcomes.
 
-Runtime dependencies: `react-aria` and `react-aria-components` (see `package.json`). Peer dependencies: `react` and `react-dom` (18 or 19).
+Peer dependencies: `react` and `react-dom` (18 or 19).
 
 ## Installation
 
 ```bash
-npm install ds-react react-aria react-aria-components
+npm install ds-react
 ```
 
-Styles are not injected on import (keeps generated types clean):
+Ensure `react` and `react-dom` are installed in the host app. Styles are not injected on import (keeps generated types clean):
 
 ```ts
 import 'ds-react/styles'
@@ -89,11 +89,11 @@ import { Badge } from 'ds-react'
 
 ## Tabs and Tab
 
-Compound tabs for switching content. Visual variants: **`Pill`** | **`Underline`** only. Interactive states in CSS follow design specs (Default, Hover, Active, Focus via React Aria `data-*` attributes). There is no `disabled` or `loading` Tab API in the shipped design.
+Compound tabs for switching content. Visual variants: **`Pill`** | **`Underline`** only. Interactive states in CSS follow design specs (Default, Hover, Active, Focus via `data-*` attributes). There is no `disabled` or `loading` Tab API in the shipped design.
 
 **Responsive layout** uses CSS media queries only (`>768px` desktop, `≤768px` mobile). There is **no** JavaScript `mobile` prop.
 
-Selecting a tab updates which **`TabPanel`** is shown (same `id` on `Tab` and `TabPanel`).
+Selecting a tab updates which **`TabPanel`** is shown (same public `id` on `Tab` and `TabPanel`).
 
 ```tsx
 import { Badge, Tab, TabList, TabPanel, Tabs } from 'ds-react'

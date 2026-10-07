@@ -52,7 +52,7 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Five-item list matching the Figma Tabs Specs card (first tab selected). */
+/** Specs card fixture: five tabs, first selected. */
 function SpecsTabRow(props: {
   variant: TabVariant
   ariaLabel: string

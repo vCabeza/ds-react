@@ -6,13 +6,13 @@ You are a Senior Frontend Architect working on `ds-react`, an accessible React c
 
 - React is the mandatory UI framework for every public and internal component.
 - Do not introduce alternative view libraries (Vue, Solid, Svelte, Angular) or non-React renderers.
-- Public components are client components (`'use client'` where the bundler preserves it). Interaction APIs follow React Aria (`onPress`, not `onClick` as the library contract).
+- Public components are client components (`'use client'` where the bundler preserves it). Interaction APIs use a library-owned press model (`onPress`, not `onClick` as the library contract).
+- Do **not** add `react-aria`, `react-aria-components`, or other interaction UI kits as dependencies. Behavior is raw React + semantic HTML + WAI-ARIA APG patterns.
 
 ## 2. Architecture and accessibility skeleton
 
-- Every interactive UI primitive MUST use React Aria (`react-aria` hooks and/or React Aria Components) as the accessibility and behavior skeleton: focus, keyboard, press, hover, and ARIA.
-- Do not reinvent button/link/dialog/listbox behavior with raw DOM handlers when React Aria already provides it.
-- Prefer a native semantic element (`<button>`, `<a>`, `<input>`) with Aria props spread onto it. Do not use `<div role="button">` when a native control exists.
+- Every interactive UI primitive MUST be built with raw React, semantic native elements, and explicit ARIA where required (focus, keyboard, press, hover). Prefer shared helpers in `src/lib/interaction.ts` for `data-focus-visible` / hover / pressed.
+- Prefer a native semantic element (`<button>`, `<a>`, `<input>`). Do not use `<div role="button">` when a native control exists.
 - Accessibility target: **WCAG 3.0** outcomes for this control (focus management, keyboard, semantic ARIA, contrast, assistive technologies), verified against the **WCAG 2.2 Level AA** testable floor (WCAG 3.0 remains a W3C Working Draft; 2.2 AA is the CI-enforceable baseline until WCAG 3 is a Recommendation).
 - Required for interactive primitives: visible focus indicator, keyboard parity with pointer, accessible name, state not conveyed by color alone, `prefers-reduced-motion`, minimum pointer target (24px CSS, prefer 44px on default sizes).
 

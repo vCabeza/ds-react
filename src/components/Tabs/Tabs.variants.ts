@@ -11,7 +11,6 @@ const tabListVariantClass: Record<TabsVariant, string> = {
   Underline: 'ds-tab-list--Underline',
 }
 
-/** Root Tabs class names including variant. */
 export function tabsClassName(options: {
   variant: TabsVariant
   className?: string | undefined
@@ -19,7 +18,6 @@ export function tabsClassName(options: {
   return cx('ds-tabs', tabsVariantClass[options.variant], options.className)
 }
 
-/** TabList class names including variant gap rules. */
 export function tabListClassName(options: {
   variant: TabsVariant
   className?: string | undefined
@@ -27,7 +25,6 @@ export function tabListClassName(options: {
   return cx('ds-tab-list', tabListVariantClass[options.variant], options.className)
 }
 
-/** TabPanel class names. */
 export function tabPanelClassName(options: { className?: string | undefined }): string {
   return cx('ds-tab-panel', options.className)
 }

@@ -6,7 +6,6 @@ const variantClass: Record<TabVariant, string> = {
   Underline: 'ds-tab--Underline',
 }
 
-/** Class names for a Tab trigger including variant. */
 export function tabClassName(options: {
   variant: TabVariant
   className?: string | undefined

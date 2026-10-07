@@ -1,4 +1,4 @@
-/* Tab — token-driven; viewport modes via CSS media queries only (no JS mobile prop). */
+/* Viewport modes via CSS media queries only (no JS `mobile` prop). */
 
 .ds-tab {
   box-sizing: border-box;
@@ -7,13 +7,11 @@
   align-items: center;
   justify-content: center;
   margin: 0;
-  /* Desktop height 50px */
   height: 3.125rem;
   min-height: 3.125rem;
   max-height: 3.125rem;
   border: 0;
   background: transparent;
-  /* Typography: body-m (14px / 150%), Inter Bold */
   font-family: var(--ds-font-family, 'Inter', sans-serif);
   font-size: var(--font-size-body-m, 0.875rem);
   line-height: calc(
@@ -39,11 +37,8 @@
   flex-shrink: 0;
 }
 
-/* ----- Pill (desktop defaults) ----- */
-
 .ds-tab--Pill {
   border-radius: 100px;
-  /* Desktop: block 3XS, inline S, gap 2XS */
   padding-top: var(--ds-space-3xs, 0.25rem);
   padding-bottom: var(--ds-space-3xs, 0.25rem);
   padding-left: var(--ds-space-s, 1rem);
@@ -51,7 +46,6 @@
   gap: var(--ds-space-2xs, 0.5rem);
 }
 
-/* Pill — Selected */
 .ds-tab--Pill[data-selected] {
   background-color: var(--Inverse, #1b2134);
   color: var(--OnInverse, #ffffff);
@@ -71,7 +65,6 @@
   outline-offset: var(--ds-focus-offset, 2px);
 }
 
-/* Pill — Unselected */
 .ds-tab--Pill:not([data-selected]) {
   background-color: transparent;
   border: 1px solid var(--Outline, #d3d3dc);
@@ -94,8 +87,6 @@
   outline: var(--ds-focus-width, 2px) solid #000000;
   outline-offset: var(--ds-focus-offset, 2px);
 }
-
-/* ----- Underline (desktop defaults) ----- */
 
 .ds-tab--Underline {
   padding-left: 0;
@@ -137,17 +128,14 @@
   border-radius: 4px;
 }
 
-/* ----- Mobile (≤768px) ----- */
-
 @media (max-width: 768px) {
   .ds-tab {
-    height: 2.625rem; /* 42px */
+    height: 2.625rem;
     min-height: 2.625rem;
     max-height: 2.625rem;
   }
 
   .ds-tab--Pill {
-    /* Mobile: block 0, inline XS, gap 3XS */
     padding-top: var(--ds-space-0, 0);
     padding-bottom: var(--ds-space-0, 0);
     padding-left: var(--ds-space-xs, 0.75rem);

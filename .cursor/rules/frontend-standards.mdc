@@ -11,17 +11,17 @@ Apply these rules on every change. They override informal habits from older file
 ## 1. Core framework — React only
 
 - React is the only UI framework. New primitives are React function components with TypeScript.
-- Library interaction contract: React Aria press/focus/hover. Do not expose `onClick` as the primary public API.
+- Library interaction contract: `onPress` (not `onClick` as the primary public API).
+- Do **not** depend on `react-aria` or `react-aria-components`. Implement behavior with raw React, semantic HTML, and WAI-ARIA APG patterns.
 
-## 2. Accessibility skeleton — React Aria + WCAG 3.0
+## 2. Accessibility skeleton — raw React + WCAG 3.0
 
-- Interactive UI **must** be built on `react-aria` (hooks such as `useButton`, `useFocusRing`, `useHover`, and/or React Aria Components).
-- Spread Aria-generated DOM props onto a **semantic** native element.
+- Interactive UI **must** use semantic native elements and library-owned interaction helpers (`src/lib/interaction.ts` for focus-visible / hover / pressed where shared).
 - Comply with **WCAG 3.0** outcomes relevant to the control (focus, keyboard, ARIA, contrast, AT). Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, documented token contrast).
 - Checklist for every interactive primitive:
   - Accessible name (visible text or required `aria-label` at the type level for icon-only)
-  - Focus visible (`useFocusRing` → `data-focus-visible`; never `outline: none` without a replacement)
-  - Keyboard: Tab plus control-specific keys (button: Enter and Space)
+  - Focus visible (`data-focus-visible`; never `outline: none` without a replacement)
+  - Keyboard: Tab plus control-specific keys (button: Enter and Space; tabs: arrows, Home/End)
   - Disabled / pending announced (`aria-busy`, do not drop the accessible name)
   - Contrast: text ≥ 4.5:1, UI/focus ≥ 3:1 via tokens
   - Pointer target ≥ 24px CSS (default sizes prefer 40–44px)
@@ -31,7 +31,7 @@ Apply these rules on every change. They override informal habits from older file
 ## 3. TypeScript — `any` forbidden
 
 - `strict`, `noUncheckedIndexedAccess`, `exactOptionalPropertyTypes` stay on.
-- Ban `any`. Prefer `unknown`, generics, discriminated unions, and `Aria*` types from `react-aria`.
+- Ban `any`. Prefer `unknown`, generics, and discriminated unions.
 - Exception: third-party types completely broken — use the narrowest assertion and a comment: `// third-party: <package> <reason>`.
 - Forbidden without that comment: `any`, `as any`, `as never` used to dodge mismatched types.
 
@@ -44,7 +44,7 @@ ESLint MUST include:
 ## 4. Tests and 85% coverage
 
 - Vitest + Testing Library + jest-axe (or equivalent) for every public component.
-- Cover: render, keyboard, pointer, disabled, pending, variants that change a11y, refs, and utilities (`cx`, `mergeRefs`, variant maps).
+- Cover: render, keyboard, pointer, disabled, pending, variants that change a11y, refs, and utilities (`cx`, `mergeRefs`, variant maps, interaction helpers).
 - Coverage watermarks **85%** lines, branches, functions, statements, enforced in `vitest.config.ts` (`coverage.thresholds` and per-file thresholds for `src/components/**`).
 - Script: `npm test` runs coverage in CI; do not disable thresholds to land a PR.
 
