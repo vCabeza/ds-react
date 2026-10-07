@@ -5,7 +5,8 @@
   "license": "MIT",
   "type": "module",
   "sideEffects": [
-    "**/*.css"
+    "**/*.css",
+    "**/*.styles.ts"
   ],
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

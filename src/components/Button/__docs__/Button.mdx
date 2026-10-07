@@ -1,0 +1,94 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as ButtonStories from './Button.stories'
+
+<Meta of={ButtonStories} />
+
+# Button
+
+Primary press control for actions in forms, toolbars, and flows. Interactive states use `data-hovered`, `data-pressed`, `data-focus-visible`, `data-disabled`, and `data-pending`.
+
+Use **`onPress`** (not `onClick`). Icon-only buttons must set `aria-label`. Pending state is announced on a polite live region and does not change the accessible name.
+
+Shared stack, setup, and accessibility live under **Overview**.
+
+## How it works
+
+- Renders a native `<button>`.
+- Public contract is **`onPress`** (pointer and keyboard).
+- `isPending` keeps focus, sets `aria-busy`, blocks press/submit, and announces `pendingLabel` on a polite live region outside the button so the accessible name stays the visible label.
+
+#### Example
+
+<Canvas of={ButtonStories.Default} />
+
+<Controls />
+
+## Variants and intents
+
+Every shipped fill × intent combination.
+
+<Canvas of={ButtonStories.VariantIntentMatrix} />
+
+## Pending
+
+Busy state: `aria-busy` on the button, polite live region with `pendingLabel`, spinner is presentational.
+
+<Canvas of={ButtonStories.Pending} />
+
+## Submit
+
+Native `type="submit"` for forms. Pair with `isPending` to block double submit.
+
+<Canvas of={ButtonStories.TypeSubmit} />
+
+## Focus visible
+
+Tabs onto the control so the focus-visible ring can be reviewed (`play` focuses the button).
+
+<Canvas of={ButtonStories.FocusVisible} />
+
+## Pressed
+
+Activates the button with Enter after focus (press model).
+
+<Canvas of={ButtonStories.Pressed} />
+
+## Usage
+
+```tsx
+import { Button } from 'ds-react'
+
+export function Example() {
+  return (
+    <Button intent="primary" variant="solid" size="md" onPress={() => {}}>
+      Save
+    </Button>
+  )
+}
+```
+
+Icon-only:
+
+```tsx
+<Button aria-label="Close" start="×" onPress={() => {}} />
+```
+
+Pending:
+
+```tsx
+<Button isPending pendingLabel="Saving" type="submit">
+  Save
+</Button>
+```
+
+## Props
+
+- **children** — Visible label (omit only for icon-only with `aria-label`).
+- **variant** — `"solid"` | `"outline"` | `"ghost"` (default `"solid"`).
+- **size** — `"sm"` | `"md"` | `"lg"` (default `"md"`).
+- **intent** — `"neutral"` | `"primary"` | `"danger"` (default `"primary"`).
+- **onPress** — Press handler (pointer + keyboard).
+- **isDisabled** / **isPending** / **pendingLabel** / **fullWidth**
+- **start** / **end** — Presentational icon slots (`aria-hidden`).
+- **type** — `"button"` | `"submit"` | `"reset"` (default `"button"`).
+- Native `button` attributes such as `name`, `value`, `form*`, and `aria-*` are forwarded (use `onPress` / `isDisabled`, not `onClick` / `disabled`, as the public API).

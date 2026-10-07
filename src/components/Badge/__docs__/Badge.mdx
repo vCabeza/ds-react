@@ -1,0 +1,64 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as BadgeStories from './Badge.stories'
+
+<Meta of={BadgeStories} />
+
+# Badge
+
+Static status label for short counts, tags, or severity cues. Often composed into a `Tab` via the `badge` slot.
+
+Badge is **non-interactive** (`<span>`). Size adapts with CSS media queries only — there is no `mobile` prop. Variants map to `SurfaceHigh`, `SurfacePositive`, and `SurfaceNegative`. Label typography is body-s (12px / 150%), Inter Bold (700), color `OnNeutral`.
+
+Shared stack, setup, and accessibility live under **Overview**.
+
+## How it works
+
+- Variants: `Neutral` | `Positive` | `Negative`.
+- Desktop (`min-width: 769px`): height 26px, padding 3XS/2XS, radius lg.
+- Mobile (`max-width: 768px`): height 22px, padding 4XS/3XS, radius md.
+- Inside `Tab`, pass `<Badge variant="…">` into `badge`; choose the Badge variant on Badge itself.
+
+#### Example
+
+<Canvas of={BadgeStories.Default} />
+
+<Controls />
+
+## Variants
+
+<Canvas of={BadgeStories.Matrix} />
+
+All three variants side by side.
+
+## Mobile Viewport
+
+Constrained preview frame (max-width 400px) mirroring production `@media (max-width: 768px)` metrics: height 22px, padding 4XS/3XS, radius md.
+
+<Canvas of={BadgeStories.MobileViewport} />
+
+## Usage
+
+```tsx
+import { Badge } from 'ds-react'
+
+<>
+  <Badge variant="Neutral">12</Badge>
+  <Badge variant="Positive">New</Badge>
+  <Badge variant="Negative">!</Badge>
+</>
+```
+
+On a tab:
+
+```tsx
+<Tab id="emails" badge={<Badge variant="Neutral">12</Badge>}>
+  Emails
+</Tab>
+```
+
+## Props
+
+- **children** — Visible label content.
+- **variant** — `"Neutral"` | `"Positive"` | `"Negative"` (default `"Neutral"`).
+- **className** — Extra class names.
+- Other native `span` attributes are forwarded.

@@ -11,5 +11,5 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["vitest.config.ts", "tsup.config.ts"]
+  "include": ["vitest.config.ts", "tsup.config.ts", ".storybook/**/*.ts"]
 }

@@ -2,27 +2,28 @@ import '@fontsource/inter/400.css'
 import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
 
-export { Button } from './components/Button'
+export {
+  Badge,
+  Button,
+  Tab,
+  TabList,
+  TabPanel,
+  Tabs,
+} from './components'
 export type {
+  BadgeProps,
+  BadgeVariant,
   ButtonIntent,
   ButtonProps,
   ButtonSize,
   ButtonVariant,
-} from './components/Button'
-
-export { Badge } from './components/Badge'
-export type { BadgeProps, BadgeVariant } from './components/Badge'
-
-export { Tab } from './components/Tab'
-export type { TabProps, TabVariant } from './components/Tab'
-
-export { TabList, TabPanel, Tabs } from './components/Tabs'
-export type {
   TabListProps,
   TabPanelProps,
+  TabProps,
   TabsProps,
   TabsVariant,
-} from './components/Tabs'
+  TabVariant,
+} from './components'
 
 export {
   colorTokens,

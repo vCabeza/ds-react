@@ -1,0 +1,135 @@
+import { Meta } from '@storybook/blocks'
+
+<Meta title="Overview" />
+
+# Design System Overview
+
+`ds-react` is an accessible React component library for a shared design system. Public API today: **Button**, **Badge**, **Tab**, **Tabs** / **TabList** / **TabPanel**, plus typed design tokens.
+
+Component Docs pages (under **Components/**) document each control’s purpose, API, and examples. **This page** holds everything shared: stack, setup, conventions, and accessibility. Prefer linking here instead of repeating the same guidance on every component.
+
+---
+
+## Technologies
+
+- **React** + **TypeScript** (`strict`, including `noUncheckedIndexedAccess` and `exactOptionalPropertyTypes`)
+- **Plain CSS** + design tokens (`--ds-*` and semantic color tokens). No Tailwind or CSS frameworks.
+- **Raw React** for interaction (selection, keyboard, press). No `react-aria` / `react-aria-components`.
+- Shared helpers in `src/utils/interaction.ts` (hover, pressed, keyboard-only `data-focus-visible`) and `src/utils/dom.ts` (`cx`, `mergeRefs`).
+- **Storybook** for docs and specimens; **Vitest** + Testing Library + jest-axe for tests (coverage floor **85%**).
+- Package peers: `react` / `react-dom`. Styles ship as `ds-react/styles` (not injected on JS import alone).
+
+---
+
+## Configuration and setup
+
+```bash
+npm install ds-react
+```
+
+Ensure `react` and `react-dom` (18 or 19) are installed in the host app. Load styles once:
+
+```tsx
+import 'ds-react/styles'
+import { Button, Badge, Tab, TabList, TabPanel, Tabs } from 'ds-react'
+```
+
+Typed tokens:
+
+```ts
+import { colorTokens, spacingTokens, typographyTokens } from 'ds-react'
+```
+
+CSS variables (also available after importing styles):
+
+```css
+.example {
+  padding: var(--ds-space-s);
+  color: var(--OnNeutral);
+  font-family: var(--ds-font-family);
+}
+```
+
+Path aliases used in this repo for internals: `@components/*`, `@tokens/*`, `@utils/*`.
+
+---
+
+## Shared conventions
+
+- **Press API:** interactive controls expose **`onPress`**, not `onClick`, as the library contract.
+- **Visual state:** prefer `data-hovered`, `data-pressed`, `data-focus-visible`, `data-selected`, `data-disabled`, `data-pending` — state is not color alone.
+- **Responsive layout:** viewport metrics use **CSS media queries** (`>768px` / `≤768px`). There is **no** JS `mobile` prop on Badge / Tab / Tabs.
+- **Tokens first:** component CSS uses `var(--ds-…)` / semantic tokens. Hardcoded visual values are defects except documented exceptions (e.g. sr-only clips, rare Figma colors without a token).
+- **Documentation language:** English for code comments, Storybook docs, and default user-visible strings (`pendingLabel`, etc.).
+- **Folder layout:** lowercase component folders (`button/`, `badge/`, …) with `__docs__/` and `__test__/`; PascalCase source files.
+
+Browse tokens visually under **Design System / Tokens**.
+
+---
+
+## Accessibility
+
+### Goals
+
+This library targets **WCAG 3.0** outcomes for interactive controls (focus, keyboard, names, contrast, assistive technologies). Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, token contrast).
+
+Approach:
+
+- Semantic HTML first (`<button>`, WAI-ARIA tabs pattern).
+- Library-owned focus / hover / press helpers → `data-focus-visible` and related attributes.
+- `@storybook/addon-a11y` enabled; Vitest + jest-axe on public components.
+- Contrast pairs live in tokens (text ≥ 4.5:1, UI/focus ≥ 3:1 where specified). Focus rings use `--ds-focus-*` / `--Inverse`. Honor `prefers-reduced-motion` in motion.
+
+Full WCAG mapping tables also live in the repository root `ACCESSIBILITY.md`.
+
+### Button
+
+| Outcome | Floor (WCAG 2.2 AA) | Implementation |
+| --- | --- | --- |
+| Accessible name | 4.1.2 / 1.1.1 | Visible text or required `aria-label` (icon-only). Icon slots `aria-hidden`. |
+| Text / UI contrast | 1.4.3 / 1.4.11 | Tokenized surfaces; 2px focus ring with offset. |
+| Focus visible | 2.4.7 / 2.4.13 | Keyboard-only `data-focus-visible`. |
+| Keyboard | 2.1.1 | Native `<button>`: Tab, Enter, Space → `onPress`. |
+| Target size | 2.5.8 | `sm` 32 / `md` 40 / `lg` 44 CSS px. |
+| Pending | 4.1.3 | `aria-busy`; `pendingLabel` on polite live region **outside** the button; no native `disabled` while pending (focus kept). |
+| Disabled | 4.1.2 | Native `disabled` via `isDisabled`. |
+
+### Badge
+
+- Non-interactive `<span>` — no keyboard handler or focus ring of its own.
+- Short labels; variants change surface tokens (not color alone).
+- When nested in a tab, badge text may contribute to the tab’s accessible name.
+
+### Tabs and Tab
+
+Follow the [WAI-ARIA tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+
+| Outcome | Floor | Implementation |
+| --- | --- | --- |
+| Roles | 4.1.2 | `tablist`, `tab`, `tabpanel`. |
+| Selection | 4.1.2 | `aria-selected`; roving `tabIndex` (selected `0`, others `-1`). |
+| Keyboard | 2.1.1 | Arrow Left/Right (wrap), Home/End; Enter/Space via native button. |
+| Naming | 4.1.2 | `aria-label` on `Tabs` when no visible list label; tab name from label (+ optional short badge). |
+| Panels | 4.1.2 | Matching public `id`; DOM ids `ds-tab-*` / `ds-tabpanel-*` with `aria-controls` / `aria-labelledby`. |
+| Focus / state | 2.4.7 / 1.4.1 | `data-focus-visible`, `data-selected`, `data-hovered`, `data-pressed`. |
+
+Standalone `Tab` specimens under axe should sit in a `role="tablist"` (or use the compound `Tabs` API). No disabled/loading Tab API in the shipped design.
+
+### Tokens and motion
+
+- Token contrast backs Button, Badge, and Tab.
+- Motion / spinner transitions respect `prefers-reduced-motion` where applied in component CSS.
+
+### References
+
+- [WCAG 2.2](https://www.w3.org/TR/WCAG22/)
+- [WCAG 3.0 Working Draft](https://www.w3.org/TR/wcag-3.0/)
+- [WAI-ARIA APG: Tabs Pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/)
+
+---
+
+## Where to go next
+
+- **Components / Button**, **Badge**, **Tab**, **Tabs** — purpose, how it works, Canvas, props.
+- **Design System / Tokens** — living token gallery.
+- Repository `README.md` and `ACCESSIBILITY.md` for package and CI detail.

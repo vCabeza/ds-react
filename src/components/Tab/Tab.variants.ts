@@ -1,4 +1,4 @@
-import { cx } from '../../lib/dom'
+import { cx } from '@utils/dom'
 import type { TabVariant } from './Tab.types'
 
 const variantClass: Record<TabVariant, string> = {

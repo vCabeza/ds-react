@@ -1,4 +1,4 @@
-import type { SpacingToken } from '../../tokens/spacing'
+import type { SpacingToken } from '@tokens/spacing'
 import type { TabsVariant } from './Tabs.types'
 
 /** TabList gap metrics (CSS viewport modes only; no JS `mobile` prop). */

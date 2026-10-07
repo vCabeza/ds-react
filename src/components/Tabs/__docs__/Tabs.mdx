@@ -1,0 +1,94 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as TabsStories from './Tabs.stories'
+
+<Meta of={TabsStories} />
+
+# Tabs
+
+Compound tabs for switching panels: `Tabs`, `TabList`, `Tab`, `TabPanel`.
+
+Variants are strictly **`Pill`** and **`Underline`**. Selecting a tab shows the matching panel (same public `id` on `Tab` and `TabPanel`). There is no `mobile` prop — Storybook mobile stories use a constrained preview frame that mirrors production media-query metrics.
+
+Shared stack, setup, and accessibility (roles, keyboard, panel association) live under **Overview**.
+
+## How it works
+
+- `Tabs` owns controlled/uncontrolled selection (`selectedKey` / `defaultSelectedKey` / `onSelectionChange`) and variant context.
+- `TabList` handles Arrow Left/Right (wrap), Home, and End.
+- DOM ids use `ds-tab-*` / `ds-tabpanel-*` so tab and panel never share one HTML `id`; the public `id` prop stays the selection key.
+- Responsive gaps/metrics are CSS media-query only.
+
+#### Example
+
+<Canvas of={TabsStories.Default} />
+
+<Controls />
+
+## Desktop Specs
+
+Pill (gap XS, height 50px) and Underline (gap XL, height 50px) at desktop metrics, five Label tabs, first selected.
+
+<Canvas of={TabsStories.DesktopSpecs} />
+
+## Mobile Viewport
+
+Constrained preview (max-width 400px) mirroring `@media (max-width: 768px)`: Pill gap 2XS · Underline gap L · Tab height 42px.
+
+<Canvas of={TabsStories.MobileViewport} />
+
+## Interactive Pill
+
+Working accessible Pill tabs with panel switching. Desktop (or current viewport) on top; mobile-metric preview frame below. Use Arrow keys, Home, and End to navigate.
+
+<Canvas of={TabsStories.InteractivePillTabs} />
+
+## Interactive Underline
+
+Same pattern with Underline variant and Inverse selection indicator.
+
+<Canvas of={TabsStories.InteractiveUnderlineTabs} />
+
+## With badges
+
+Integrates the design-system Badge (Neutral, Negative, Positive) on selected and unselected tabs.
+
+<Canvas of={TabsStories.WithBadges} />
+
+## Usage
+
+```tsx
+import { Badge, Tab, TabList, TabPanel, Tabs } from 'ds-react'
+
+export function WorkspaceTabs() {
+  return (
+    <Tabs
+      variant="Pill"
+      defaultSelectedKey="emails"
+      aria-label="Workspace"
+      onSelectionChange={(key) => console.log(key)}
+    >
+      <TabList>
+        <Tab id="emails" badge={<Badge variant="Neutral">12</Badge>}>
+          Emails
+        </Tab>
+        <Tab id="files" badge={<Badge variant="Negative">!</Badge>}>
+          Files
+        </Tab>
+        <Tab id="edits">Edits</Tab>
+      </TabList>
+      <TabPanel id="emails">Emails content</TabPanel>
+      <TabPanel id="files">Files content</TabPanel>
+      <TabPanel id="edits">Edits content</TabPanel>
+    </Tabs>
+  )
+}
+```
+
+## Props (`Tabs`)
+
+- **variant** — `"Pill"` | `"Underline"` (default `"Pill"`).
+- **selectedKey** / **defaultSelectedKey** / **onSelectionChange**
+- **aria-label** — Accessible name for the tab list.
+- **className** / **children**
+
+`Tab` / `TabList` / `TabPanel` compose under `Tabs`.

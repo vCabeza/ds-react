@@ -3,10 +3,10 @@ import '@fontsource/inter/400.css'
 import '@fontsource/inter/600.css'
 import '@fontsource/inter/700.css'
 import '../src/styles/tokens.css'
-import '../src/components/Button/Button.css'
-import '../src/components/Badge/Badge.css'
-import '../src/components/Tab/Tab.css'
-import '../src/components/Tabs/Tabs.css'
+import '../src/components/button/Button.css'
+import '../src/components/badge/Badge.css'
+import '../src/components/tab/Tab.css'
+import '../src/components/tabs/Tabs.css'
 
 const preview: Preview = {
   parameters: {
@@ -19,6 +19,16 @@ const preview: Preview = {
     },
     a11y: {
       test: 'error',
+    },
+    options: {
+      storySort: {
+        order: [
+          'Overview',
+          'Components',
+          'Design System',
+          ['Tokens', ['Colors', 'Spacing', 'Typography', 'Interaction']],
+        ],
+      },
     },
   },
 }

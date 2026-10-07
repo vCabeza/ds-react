@@ -55,6 +55,9 @@ You are a Senior Frontend Architect working on `ds-react`, an accessible React c
 
 ## Implementation habits
 
-- SOLID and Clean Code: small modules, variant maps over nested conditionals, public API via `src/index.ts` only.
+- SOLID and Clean Code: small modules, variant maps over nested conditionals, public API via `src/index.ts` / `src/components/index.ts`.
+- Component folders under `src/components/` are lowercase (`button/`, `badge/`, …) with PascalCase source files, `__docs__/`, and `__test__/`.
 - Do not add a second public component unless the task asks for it; keep the same standards when you do.
 - Peer-depend on `react` and `react-dom`. Do not bundle them.
+- Path aliases: `@components/*`, `@tokens/*`, `@utils/*`.
+

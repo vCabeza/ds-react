@@ -7,9 +7,10 @@ import {
   useHover,
   usePressHandler,
   usePressed,
-} from '../../lib/interaction'
-import { useOptionalTabsContext } from '../Tabs/Tabs.context'
-import { panelDomId, tabDomId } from '../Tabs/Tabs.ids'
+} from '@utils/interaction'
+import './Tab.styles'
+import { useOptionalTabsContext } from '../tabs/Tabs.context'
+import { panelDomId, tabDomId } from '../tabs/Tabs.ids'
 import type { TabProps, TabVariant } from './Tab.types'
 import { tabClassName } from './Tab.variants'
 

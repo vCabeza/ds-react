@@ -1,0 +1,32 @@
+/**
+ * Storybook-only: constrained frame that mirrors Badge mobile metrics
+ * (`@media (max-width: 768px)`). Production Badge stays media-query driven.
+ */
+
+.ds-story-frame {
+  box-sizing: border-box;
+  font-family: var(--ds-font-family, 'Inter', sans-serif);
+  color: var(--OnNeutral, #1b2134);
+}
+
+.ds-story-mobile-frame {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  padding: var(--ds-space-s, 1rem);
+  border: 1px solid var(--Outline, #d3d3dc);
+  border-radius: var(--ds-radius-md, 0.5rem);
+  background: var(--OnInverse, #ffffff);
+  overflow-x: auto;
+}
+
+.ds-story-mobile-frame .ds-badge {
+  min-width: 2.875rem;
+  height: 1.375rem;
+  max-height: 1.375rem;
+  padding-top: var(--ds-space-4xs, 0.125rem);
+  padding-bottom: var(--ds-space-4xs, 0.125rem);
+  padding-left: var(--ds-space-3xs, 0.25rem);
+  padding-right: var(--ds-space-3xs, 0.25rem);
+  border-radius: var(--ds-radius-md);
+}

@@ -1,5 +1,6 @@
 'use client'
 
+import './Tabs.styles'
 import {
   Children,
   isValidElement,
@@ -12,7 +13,7 @@ import {
   type ReactElement,
   type ReactNode,
 } from 'react'
-import type { TabProps } from '../Tab/Tab.types'
+import type { TabProps } from '../tab/Tab.types'
 import { TabsContext, useTabsContext } from './Tabs.context'
 import { panelDomId, tabDomId } from './Tabs.ids'
 import {

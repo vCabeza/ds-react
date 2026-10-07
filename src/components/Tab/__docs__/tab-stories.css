@@ -1,0 +1,93 @@
+/**
+ * Storybook-only helpers: simulate ≤768px Tab/Tabs metrics inside a constrained
+ * preview frame. Production components still use CSS media queries exclusively;
+ * there is no `mobile` prop on Tab or Tabs.
+ */
+
+.ds-story-frame {
+  box-sizing: border-box;
+  font-family: var(--ds-font-family, 'Inter', sans-serif);
+  color: var(--OnNeutral, #1b2134);
+}
+
+.ds-story-mobile-frame {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 400px;
+  padding: var(--ds-space-s, 1rem);
+  border: 1px solid var(--Outline, #d3d3dc);
+  border-radius: var(--ds-radius-md, 0.5rem);
+  background: var(--OnInverse, #ffffff);
+  overflow-x: auto;
+}
+
+/* Mirror @media (max-width: 768px) Tab metrics for side-by-side Storybook previews. */
+.ds-story-mobile-frame .ds-tab {
+  height: 2.625rem;
+  min-height: 2.625rem;
+  max-height: 2.625rem;
+}
+
+.ds-story-mobile-frame .ds-tab--Pill {
+  padding-top: var(--ds-space-0, 0);
+  padding-bottom: var(--ds-space-0, 0);
+  padding-left: var(--ds-space-xs, 0.75rem);
+  padding-right: var(--ds-space-xs, 0.75rem);
+  gap: var(--ds-space-3xs, 0.25rem);
+}
+
+.ds-story-mobile-frame .ds-tab--Underline {
+  gap: var(--ds-space-3xs, 0.25rem);
+}
+
+.ds-story-mobile-frame .ds-tab-list--Pill {
+  gap: var(--ds-space-2xs, 0.5rem);
+}
+
+.ds-story-mobile-frame .ds-tab-list--Underline {
+  gap: var(--ds-space-l, 1.5rem);
+}
+
+.ds-story-matrix {
+  display: grid;
+  grid-template-columns: minmax(7.5rem, 9rem) repeat(4, minmax(6.5rem, 1fr));
+  gap: var(--ds-space-s, 1rem) var(--ds-space-xs, 0.75rem);
+  align-items: center;
+}
+
+.ds-story-matrix__corner,
+.ds-story-matrix__col,
+.ds-story-matrix__row {
+  font-size: var(--font-size-body-s, 0.75rem);
+  font-weight: 700;
+  line-height: var(--line-height-body-s, 1.5);
+}
+
+.ds-story-matrix__col,
+.ds-story-matrix__row {
+  color: var(--OnNeutral, #1b2134);
+}
+
+.ds-story-section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-l, 1.5rem);
+}
+
+.ds-story-section + .ds-story-section {
+  margin-top: var(--ds-space-xl, 2rem);
+  padding-top: var(--ds-space-xl, 2rem);
+  border-top: 1px solid var(--Outline, #d3d3dc);
+}
+
+.ds-story-row {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2xs, 0.5rem);
+}
+
+.ds-story-interactive-split {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-xl, 2rem);
+}

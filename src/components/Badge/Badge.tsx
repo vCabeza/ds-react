@@ -1,5 +1,6 @@
 'use client'
 
+import './Badge.styles'
 import type { BadgeProps } from './Badge.types'
 import { badgeClassName } from './Badge.variants'
 

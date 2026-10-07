@@ -46,7 +46,7 @@
 
   --ds-disabled-opacity: 0.5;
 
-  /* Color tokens — see src/tokens/colors.ts (exactly 11; declared once). */
+  /* Color tokens — see src/tokens/color.ts (exactly 11; declared once). */
   --SurfaceHigh: #F1F1F7;
   --SurfacePositive: #B1FFC7;
   --SurfaceNegative: #FFBFB1;

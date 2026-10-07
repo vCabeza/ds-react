@@ -4,7 +4,7 @@ This library targets **WCAG 3.0** outcomes for interactive controls (focus, keyb
 
 WCAG 3.0 is a W3C **Working Draft**. It is not a final conformance standard. **WCAG 2.2 Level AA** is the testable floor used in CI (axe, keyboard tests, token contrast). Meeting 2.2 AA is how we currently prove the WCAG 3.0 outcomes that apply to each control.
 
-Interactive behavior is implemented with **raw React** and semantic HTML. Shared helpers in `src/lib/interaction.ts` provide hover, pressed, and keyboard-only focus-visible (`data-*`) without depending on `react-aria` or `react-aria-components`.
+Interactive behavior is implemented with **raw React** and semantic HTML. Shared helpers in `src/utils/interaction.ts` provide hover, pressed, and keyboard-only focus-visible (`data-*`) without depending on `react-aria` or `react-aria-components`. Storybook summary: **Overview**.
 
 ---
 

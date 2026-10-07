@@ -1,4 +1,4 @@
-import { cx } from '../../lib/dom'
+import { cx } from '@utils/dom'
 import type { BadgeVariant } from './Badge.types'
 
 const variantClass: Record<BadgeVariant, string> = {

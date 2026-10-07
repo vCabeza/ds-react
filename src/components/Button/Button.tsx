@@ -1,14 +1,15 @@
 'use client'
 
 import { forwardRef, useRef, type MouseEventHandler, type ReactNode } from 'react'
-import { mergeRefs } from '../../lib/dom'
+import { mergeRefs } from '@utils/dom'
+import './Button.styles'
 import {
   mergeInteractionProps,
   useFocusVisible,
   useHover,
   usePressHandler,
   usePressed,
-} from '../../lib/interaction'
+} from '@utils/interaction'
 import type { ButtonProps } from './Button.types'
 import { buttonClassName } from './Button.variants'
 

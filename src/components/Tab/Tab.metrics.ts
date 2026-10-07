@@ -1,5 +1,5 @@
-import type { SpacingToken } from '../../tokens/spacing'
-import type { TypographyVariant } from '../../tokens/typography'
+import type { SpacingToken } from '@tokens/spacing'
+import type { TypographyVariant } from '@tokens/typography'
 
 /** Layout metrics for Tab (CSS viewport modes only; no JS `mobile` prop). */
 export const tabMetrics = {

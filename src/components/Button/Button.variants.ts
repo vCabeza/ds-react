@@ -1,4 +1,4 @@
-import { cx } from '../../lib/dom'
+import { cx } from '@utils/dom'
 import type { ButtonIntent, ButtonSize, ButtonVariant } from './Button.types'
 
 const variantClass: Record<ButtonVariant, string> = {

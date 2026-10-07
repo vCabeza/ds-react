@@ -70,14 +70,19 @@ ESLint MUST include:
 ## File layout for a primitive
 
 ```
-src/components/<Name>/
-  <Name>.tsx
-  <Name>.types.ts
-  <Name>.css          # tokens only
-  <Name>.variants.ts
-  <Name>.test.tsx
-  <Name>.stories.tsx
+src/components/<component-name>/   # lowercase folder
+  __docs__/
+    ComponentName.mdx
+    ComponentName.stories.tsx
+    Example.tsx
+  __test__/
+    ComponentName.test.tsx
+  ComponentName.tsx
+  ComponentName.types.ts
+  ComponentName.styles.ts   # side-effect import of ComponentName.css
+  ComponentName.css
+  ComponentName.variants.ts
   index.ts
 ```
 
-Export from `src/index.ts`. Styles consumed via `ds-react/styles`.
+Export via `src/components/index.ts` and `src/index.ts`. Path aliases: `@components/*`, `@tokens/*`, `@utils/*`. Styles also shipped as `ds-react/styles`.

@@ -1,5 +1,5 @@
 import type { HTMLAttributes, ReactNode } from 'react'
-import type { TabVariant } from '../Tab/Tab.types'
+import type { TabVariant } from '../tab/Tab.types'
 
 /** @deprecated Prefer `TabVariant` from the Tab module; alias kept for Tabs consumers. */
 export type TabsVariant = TabVariant

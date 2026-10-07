@@ -6,7 +6,7 @@ export {
   type SpacingToken,
   type SpacingValue,
 } from './spacing'
-export { colorTokens, type ColorHexValue, type ColorToken } from './colors'
+export { colorTokens, type ColorHexValue, type ColorToken } from './color'
 export {
   typographyTokens,
   type TypographyToken,

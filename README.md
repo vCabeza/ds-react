@@ -172,7 +172,7 @@ npm run storybook
 
 ## Accessibility
 
-This library targets **WCAG 3.0** outcomes for interactive controls. Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, token contrast). Per-control mapping: [ACCESSIBILITY.md](./ACCESSIBILITY.md) (Button and Tabs/Tab).
+This library targets **WCAG 3.0** outcomes for interactive controls. Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, token contrast). Storybook: **Overview**. Per-control mapping tables: [ACCESSIBILITY.md](./ACCESSIBILITY.md).
 
 ## Publish
 

@@ -1,0 +1,40 @@
+import { Canvas, Meta } from '@storybook/blocks'
+import * as TokensStories from './Tokens.stories'
+
+<Meta of={TokensStories} />
+
+# Tokens
+
+Living reference for design tokens. Prefer CSS custom properties (`var(--ds-…)`) in component styles; use TypeScript modules (`colorTokens`, `spacingTokens`, `typographyTokens`) for typed access.
+
+Shared stack, setup (`import 'ds-react/styles'`), and accessibility contrast guidance live under **Overview**.
+
+## How it works
+
+- Runtime CSS: `src/styles/tokens.css` (shipped as `ds-react/styles` / `ds-react/styles/tokens.css`).
+- TypeScript mirrors under `src/tokens/` (`color`, `spacing`, `typography`).
+- Components must use tokens instead of hardcoded visual values, except documented exceptions.
+
+## Colors
+
+Semantic surfaces and on-colors (`Inverse`, `SurfaceHigh`, `OnNeutral`, …). Use CSS custom properties named after each token (e.g. `var(--SurfaceHigh)`).
+
+<Canvas of={TokensStories.Colors} />
+
+## Spacing
+
+Scale `0` … `2XL` (`--ds-space-*`). Use for padding, gap, and margin. Prefer semantic steps (3XS, S, XL) over raw pixel values.
+
+<Canvas of={TokensStories.Spacing} />
+
+## Typography
+
+`body-s` / `body-m` and related metrics. Body text uses Inter. Prefer `body-m` for default copy and `body-s` for compact UI labels. Line height is 150%.
+
+<Canvas of={TokensStories.Typography} />
+
+## Interaction
+
+Radius, pointer targets, focus ring, and disabled opacity from `tokens.css` (`--ds-radius-*`, `--ds-target-*` 32/40/44px, `--ds-focus-*`, `--ds-disabled-opacity`).
+
+<Canvas of={TokensStories.Interaction} />

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react'
-import type { TabVariant } from '../Tab/Tab.types'
+import type { TabVariant } from '../tab/Tab.types'
 
 export interface TabsContextValue {
   variant: TabVariant

@@ -1,0 +1,60 @@
+import { Canvas, Controls, Meta } from '@storybook/blocks'
+import * as TabStories from './Tab.stories'
+
+<Meta of={TabStories} />
+
+# Tab
+
+Single tab trigger (`role="tab"`). Prefer the compound **Tabs** API for real usage; standalone is for specimens and controlled demos.
+
+Variants are strictly **`Pill`** and **`Underline`**. No disabled/loading Tab API and no `mobile` prop. Responsive height and padding use CSS media queries (desktop >768px, mobile ≤768px).
+
+Shared stack, setup, and accessibility (including the tabs pattern) live under **Overview**.
+
+## How it works
+
+- Inside `Tabs`: selection, roving `tabIndex`, and arrow-key navigation are owned by the container.
+- Standalone: you control `isSelected`; no list keyboard navigation.
+- Optional **`badge`** slot — pass DS `Badge` (variant on Badge).
+- Visual states: `data-selected`, `data-hovered`, `data-pressed`, `data-focus-visible`.
+
+#### Example
+
+<Canvas of={TabStories.Default} />
+
+<Controls />
+
+## Desktop State Matrix
+
+Figma 4×4 matrix at desktop metrics (height 50px; Pill padding block 3XS / inline S, gap 2XS). Columns: Pill/Underline × selected/unselected. Rows: Default, Hover, Active, Focus — Hover/Active/Focus are forced with `data-hovered`, `data-pressed`, and `data-focus-visible` (not live pointer).
+
+<Canvas of={TabStories.DesktopStateMatrix} />
+
+## Mobile Viewport
+
+One selected Pill and one selected Underline inside a constrained mobile frame (max-width 400px) mirroring production `@media (max-width: 768px)`: height 42px, compact Pill padding. No `mobile` prop.
+
+<Canvas of={TabStories.MobileViewport} />
+
+## Usage
+
+```tsx
+import { Badge, Tab } from 'ds-react'
+
+<div role="tablist" aria-label="Sections">
+  <Tab id="emails" variant="Pill" isSelected badge={<Badge variant="Neutral">12</Badge>}>
+    Emails
+  </Tab>
+</div>
+```
+
+See **Components / Tabs** for the full compound pattern.
+
+## Props
+
+- **id** — Selection key; pairs with `TabPanel` of the same id inside `Tabs`.
+- **children** — Tab label.
+- **variant** — `"Pill"` | `"Underline"` (inherited from `Tabs` when omitted in a list).
+- **isSelected** — Standalone only; ignored inside `Tabs`.
+- **badge** — Optional node (use DS `Badge`).
+- **className** — Extra class names.
