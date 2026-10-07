@@ -1,179 +1,87 @@
-# ds-react
+# ds-react — Design System home test
 
-Accessible React component library for a design system.
+Take-home exercise for a **selection process**: build an accessible, reusable **Tabs** experience (with Badge support) as if it belonged to a larger Design System.
 
-**Public API:** `Button`, `Badge`, `Tab`, `Tabs`, `TabList`, `TabPanel`, plus typed design tokens (`colorTokens`, `spacingTokens`, `typographyTokens`, and related helpers/types from `ds-react`).
 
-**Stack (behavior vs presentation):**
+---
 
-- Interactive behavior (Button press model; Tabs selection, keyboard navigation, and panel association) is implemented in this library with **raw React** and semantic HTML.
-- Styles and tokens are owned by the design system (plain CSS + `--ds-*` custom properties).
-- The package does **not** depend on `react-aria` or `react-aria-components`.
-- Accessibility follows the WAI-ARIA APG and **WCAG 2.2 Level AA** as the testable floor toward WCAG 3.0 outcomes.
+## How to run
 
-Peer dependencies: `react` and `react-dom` (18 or 19).
-
-## Installation
-
-```bash
-npm install ds-react
-```
-
-Ensure `react` and `react-dom` are installed in the host app. Styles are not injected on import (keeps generated types clean):
-
-```ts
-import 'ds-react/styles'
-import {
-  Badge,
-  Button,
-  Tab,
-  TabList,
-  TabPanel,
-  Tabs,
-} from 'ds-react'
-```
-
-## Button
-
-```tsx
-import 'ds-react/styles'
-import { Button } from 'ds-react'
-
-export function Example() {
-  return (
-    <Button intent="primary" onPress={() => console.log('saved')}>
-      Save
-    </Button>
-  )
-}
-```
-
-Public interaction contract: **`onPress`** (mouse, keyboard, and touch). Do not use `onClick` as the library API.
-
-- `variant`: `solid` | `outline` | `ghost`
-- `size`: `sm` | `md` | `lg` (minimum pointer targets 32 / 40 / 44 CSS px)
-- `intent`: `neutral` | `primary` | `danger`
-- `isDisabled`, `isPending`, `fullWidth`
-- `start` / `end`: icon slots (`aria-hidden`; accessible name comes from text or `aria-label`)
-
-Icon-only: `aria-label` is required at the type level.
-
-```tsx
-<Button aria-label="Close" start="×" />
-```
-
-Pending (accessible name is preserved; `onPress` does not fire; extra clicks do not submit):
-
-```tsx
-<Button isPending pendingLabel="Saving">
-  Save
-</Button>
-```
-
-`pendingLabel` is the i18n hook. Default: `"Loading"`.
-
-## Badge
-
-Static status label. Variants: `Neutral` | `Positive` | `Negative`. Size modes are **viewport-driven** (no `mobile` prop):
-
-- Desktop (`min-width: 769px`): padding `3XS`/`2XS`, radius `lg` (12px), height 26px
-- Mobile (`max-width: 768px`): padding `4XS`/`3XS`, radius `md` (8px), height 22px
-- Typography (all modes): `body-s` (12px / 150%), Inter, weight 700, color `OnNeutral`
-
-```tsx
-import { Badge } from 'ds-react'
-
-<Badge variant="Positive">New</Badge>
-<Badge variant="Negative">Alert</Badge>
-```
-
-## Tabs and Tab
-
-Compound tabs for switching content. Visual variants: **`Pill`** | **`Underline`** only. Interactive states in CSS follow design specs (Default, Hover, Active, Focus via `data-*` attributes). There is no `disabled` or `loading` Tab API in the shipped design.
-
-**Responsive layout** uses CSS media queries only (`>768px` desktop, `≤768px` mobile). There is **no** JavaScript `mobile` prop.
-
-Selecting a tab updates which **`TabPanel`** is shown (same public `id` on `Tab` and `TabPanel`).
-
-```tsx
-import { Badge, Tab, TabList, TabPanel, Tabs } from 'ds-react'
-
-export function WorkspaceTabs() {
-  return (
-    <Tabs
-      variant="Pill"
-      defaultSelectedKey="emails"
-      aria-label="Workspace"
-      onSelectionChange={(key) => console.log(key)}
-    >
-      <TabList>
-        <Tab id="emails" badge={<Badge variant="Neutral">12</Badge>}>
-          Emails
-        </Tab>
-        <Tab id="files" badge={<Badge variant="Negative">!</Badge>}>
-          Files
-        </Tab>
-        <Tab id="edits">Edits</Tab>
-      </TabList>
-      <TabPanel id="emails">Emails content</TabPanel>
-      <TabPanel id="files">Files content</TabPanel>
-      <TabPanel id="edits">Edits content</TabPanel>
-    </Tabs>
-  )
-}
-```
-
-**Tabs props:** `variant`, `selectedKey`, `defaultSelectedKey`, `onSelectionChange`, `aria-label`, `className`.
-
-**Tab props:** `id`, `children`, optional `badge` (pass the design-system `Badge`; choose `Badge` variant on `Badge` itself), optional `variant` / `isSelected` when used standalone outside `Tabs`.
-
-**Storybook:** `Components/Tab` (single-tab matrices and variants), `Components/Tabs` (lists, badges, interactive panels).
-
-## Tokens
-
-Core spacing scale (TypeScript: `spacingTokens` from `ds-react`):
-
-| Token | px | rem |
-| --- | --- | --- |
-| `0` | 0 | 0 |
-| `4XS` | 2 | 0.125rem |
-| `3XS` | 4 | 0.25rem |
-| `2XS` | 8 | 0.5rem |
-| `XS` | 12 | 0.75rem |
-| `S` | 16 | 1rem |
-| `M` | 20 | 1.25rem |
-| `L` | 24 | 1.5rem |
-| `XL` | 32 | 2rem |
-| `2XL` | 48 | 3rem |
-
-CSS variables: `--ds-space-0` … `--ds-space-2xl`. Browse all categories in Storybook → **Design System / Tokens Gallery**.
-
-```css
-:root {
-  --Inverse: #1b2134;
-  --SurfaceHigh: #f1f1f7;
-}
-```
-
-Full list: `src/styles/tokens.css` / `ds-react/styles`.
-
-## Scripts
+**Requirements:** Node.js **≥ 20**, npm.
 
 ```bash
 npm install
-npm test
-npm run typecheck
-npm run lint
+```
+
+### Storybook (primary review surface)
+
+```bash
+npm install
 npm run build
 npm run storybook
 ```
 
-`npm test` runs Vitest **with coverage**. The run fails if lines, branches, functions, or statements drop below **85%** globally and for public modules under `src/components/Button/**`, `src/components/Badge/**`, `src/components/Tab/**`, `src/components/Tabs/**`, and `src/tokens/**`.
+### Quality gates
 
-## Accessibility
+```bash
+npm test          # Vitest + coverage (85% floor)
+npm run typecheck
+npm run lint
+npm run build     # library artifacts in dist/
+```
 
-This library targets **WCAG 3.0** outcomes for interactive controls. Until WCAG 3.0 is a W3C Recommendation, **WCAG 2.2 Level AA** is the automated and reviewable floor (axe, keyboard tests, token contrast). Storybook: **Overview**. Per-control mapping tables: [ACCESSIBILITY.md](./ACCESSIBILITY.md).
+`npm test` fails if lines, branches, functions, or statements drop below **85%** (global and per public component/token modules).
 
-## Publish
+---
 
-`npm run build` emits `dist/` (ESM, CJS, types, CSS). `exports` points at those artifacts. `react` and `react-dom` are not bundled.
+## Technology choices (and why)
+
+Decisions below are deliberate for a **Design System home test**: show ownership of behavior and CSS, keep the stack reviewable in a short session, and stay inside the brief.
+
+### React (raw) + TypeScript
+
+- **Why React:** required by the brief; DS consumers typically already use it.
+- **Why TypeScript (strict):** safer public APIs for a DS (`exactOptionalPropertyTypes`, `noUncheckedIndexedAccess`, no `any`). Discriminated types enforce accessible names (e.g. icon-only Button requires `aria-label`).
+
+### Plain CSS + design tokens (no Tailwind / CSS frameworks)
+
+- **Why plain CSS over CSS-in-JS:** keeps presentation inspectable in Storybook and in `tokens.css`, avoids runtime style engines, and maps 1:1 to Figma token names (`--ds-*`, semantic colors).
+- **Responsive Badge/Tab metrics:** CSS media queries only (`>768px` / `≤768px`). No JS `mobile` prop—layout stays in CSS where the design defines breakpoints.
+
+### Storybook 8 (React + Vite)
+
+- Optional in the brief; chosen as the **canonical demo**: variants, Badge on Tab, Mobile Viewport frames, Tokens, and a11y addon.
+- Docs are split so **Overview** holds shared stack/a11y/setup, and component MDX stays API- and specimen-focused.
+
+### Vitest + Testing Library + jest-axe
+
+- Fast unit/integration feedback in CI-like local runs.
+- RTL + `user-event` for keyboard/pointer parity; jest-axe for automated a11y smoke.
+- **85% coverage** watermarks on public modules so the exercise shows test discipline, not only happy-path demos.
+
+### Vite / tsup / ESLint
+
+| Tool | Role | Why |
+| --- | --- | --- |
+| **Vite** | Storybook builder | Fast DX; same ecosystem as Vitest |
+| **tsup** | Library build (ESM + CJS + types + CSS) | Simple packaging for a small DS package without a heavy rollup config |
+| **ESLint** (+ jsx-a11y, react-hooks) | Static quality | Catch a11y and React pitfalls early; `no-explicit-any` |
+
+---
+
+## Accessibility (short)
+
+- Focus visible, keyboard parity, accessible names, state not by color alone, token contrast, `prefers-reduced-motion`, minimum targets.
+- Full mapping and per-control notes: Storybook **Overview** → Accessibility.
+
+---
+
+## Suggested review path
+
+1. `npm install` → `npm run storybook`
+2. Read **Overview**, then **Components / Tabs** (Desktop Specs, Mobile Viewport, With badges)
+3. Skim **Tab** + **Badge** Docs and the Tokens gallery
+4. `npm test` and glance at `__test__` next to Tabs/Tab/Badge
+5. Open `src/components/tabs/` and `src/utils/interaction.ts` for the raw behavior implementation
+
+Questions about trade-offs are welcome in the pair-programming session—this README is the map, Storybook and tests are the evidence.
